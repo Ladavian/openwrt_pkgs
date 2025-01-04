@@ -1,0 +1,80 @@
+name: Sync Upstreams
+
+on:
+  #schedule:
+  #  - cron: '0 0 * * *' # 每天运行
+  workflow_dispatch: # 手动触发
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 检出当前 Fork 仓库
+      - name: Checkout Fork Repository
+        uses: actions/checkout@v3
+
+      # 设置 Git 用户信息
+      - name: Set Git User
+        run: |
+          git config user.name "ftkey"
+          git config user.email "ftkey@qq.com"
+
+      # 同步 luci-app-advancedplus 和 luci-app-wolplus
+      - name: Sync luci-app-advancedplus and luci-app-wolplus
+        run: |
+          # 定义临时目录
+          TEMP_DIR=$(mktemp -d)
+          echo "Temporary directory: $TEMP_DIR"
+
+          # 克隆 packages 仓库到临时目录
+          git clone --depth 1 https://github.com/VIKINGYFY/packages.git $TEMP_DIR/packages
+
+          # 同步 luci-app-advancedplus
+          mkdir -p luci-app-advancedplus
+          rsync -a --delete $TEMP_DIR/packages/luci-app-advancedplus/ luci-app-advancedplus/
+
+          # 同步 luci-app-wolplus
+          mkdir -p luci-app-wolplus
+          rsync -a --delete $TEMP_DIR/packages/luci-app-wolplus/ luci-app-wolplus/
+
+          # 清理临时目录
+          rm -rf $TEMP_DIR
+
+          # 提交更改
+          if [ -n "$(git status --porcelain)" ]; then
+            git add luci-app-advancedplus luci-app-wolplus
+            git commit -m "Sync luci-app-advancedplus and luci-app-wolplus from VIKINGYFY/packages"
+          fi
+
+      # 同步 homeproxy 根目录文件
+      - name: Sync luci-app-homeproxy
+        run: |
+          # 定义临时目录
+          TEMP_DIR=$(mktemp -d)
+          echo "Temporary directory: $TEMP_DIR"
+
+          # 克隆 homeproxy 仓库到临时目录
+          git clone --depth 1 https://github.com/VIKINGYFY/homeproxy.git $TEMP_DIR/homeproxy
+
+          # 同步根目录文件到 luci-app-homeproxy
+          mkdir -p luci-app-homeproxy
+          rsync -a --delete --exclude='.git' $TEMP_DIR/homeproxy/ luci-app-homeproxy/
+
+          # 清理临时目录
+          rm -rf $TEMP_DIR
+
+          # 提交更改
+          if [ -n "$(git status --porcelain)" ]; then
+            git add luci-app-homeproxy
+            git commit -m "Sync luci-app-homeproxy from VIKINGYFY/homeproxy"
+          fi
+
+      # 推送更改到当前 Fork 仓库
+      - name: Push Changes
+        run: |
+          if [ -n "$(git status --porcelain)" ]; then
+            git push origin main
+          else
+            echo "No changes to push."
+          fi
