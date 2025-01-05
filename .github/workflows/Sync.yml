@@ -1,9 +1,11 @@
 name: Sync Upstreams
 
 on:
-  #schedule:
-  #  - cron: '0 0 * * *' # 每天运行
+  schedule:
+    - cron: '0 20 * * *' # 每天运行
   workflow_dispatch: # 手动触发
+
+permissions: write-all
 
 jobs:
   sync:
@@ -20,61 +22,59 @@ jobs:
           git config user.name "ftkey"
           git config user.email "ftkey@qq.com"
 
-      # 同步 luci-app-advancedplus 和 luci-app-wolplus
-      - name: Sync luci-app-advancedplus and luci-app-wolplus
+      # 通用同步函数
+      - name: Sync Repositories
         run: |
-          # 定义临时目录
-          TEMP_DIR=$(mktemp -d)
-          echo "Temporary directory: $TEMP_DIR"
+          sync_repo() { 
+              LOCAL_DIR=$1
+              REMOTE_REPO=$2
+              REMOTE_SUBDIRS=$3
+              BRANCH_NAME=${4:-main}
+              
+              echo "Syncing $REMOTE_REPO -> $LOCAL_DIR"
+          
+              # 创建临时目录
+              TEMP_DIR=$(mktemp -d)
+              echo "Temporary directory: $TEMP_DIR"
+          
+              # 克隆远程仓库
+              git clone --depth 1 -b "$BRANCH_NAME" "$REMOTE_REPO" "$TEMP_DIR"
+          
+              # 如果只有一个子目录，直接同步
+              if [[ $(echo "$REMOTE_SUBDIRS" | tr ',' '\n' | wc -l) -eq 1 ]]; then
+                  REMOTE_SUBDIR="$REMOTE_SUBDIRS"
+                  # 创建目标子目录
+                  mkdir -p "$LOCAL_DIR"
+                  rsync -a --delete --exclude='.git' "$TEMP_DIR/$REMOTE_SUBDIR/" "$LOCAL_DIR/"
+              else
+                  # 遍历多个子目录
+                  for REMOTE_SUBDIR in $(echo "$REMOTE_SUBDIRS" | tr ',' '\n'); do
+                      # 创建目标子目录
+                      mkdir -p "$LOCAL_DIR/$REMOTE_SUBDIR"
+                      # 同步指定子目录
+                      rsync -a --delete --exclude='.git' "$TEMP_DIR/$REMOTE_SUBDIR/" "$LOCAL_DIR/$REMOTE_SUBDIR/"
+                  done
+              fi
 
-          # 克隆 packages 仓库到临时目录
-          git clone --depth 1 https://github.com/VIKINGYFY/packages.git $TEMP_DIR/packages
+              # 提交更改
+              git add "$LOCAL_DIR"
+              if [ -n "$(git status --porcelain)" ]; then
+                  git commit -m "Sync Upstreams $LOCAL_DIR"
+              fi
+              
+              # 清理临时目录
+              rm -rf "$TEMP_DIR"
+          }
+          # 调用同步函数
+          #sync_repo v_pkgs https://github.com/VIKINGYFY/packages.git "luci-app-advancedplus,luci-app-wolplus"
+          sync_repo luci-app-advancedplus https://github.com/VIKINGYFY/packages.git luci-app-advancedplus
+          sync_repo luci-app-wolplus https://github.com/VIKINGYFY/packages.git luci-app-wolplus
+          sync_repo luci-app-homeproxy https://github.com/VIKINGYFY/homeproxy.git ""
+          sync_repo luci-app-adguardhome https://github.com/coolsnowwolf/luci.git "applications/luci-app-adguardhome" "openwrt-23.05"
+          sync_repo luci-app-passwall https://github.com/xiaorouji/openwrt-passwall.git luci-app-passwall
 
-          # 同步 luci-app-advancedplus
-          mkdir -p luci-app-advancedplus
-          rsync -a --delete $TEMP_DIR/packages/luci-app-advancedplus/ luci-app-advancedplus/
-
-          # 同步 luci-app-wolplus
-          mkdir -p luci-app-wolplus
-          rsync -a --delete $TEMP_DIR/packages/luci-app-wolplus/ luci-app-wolplus/
-
-          # 清理临时目录
-          rm -rf $TEMP_DIR
-
-          # 提交更改
-          if [ -n "$(git status --porcelain)" ]; then
-            git add luci-app-advancedplus luci-app-wolplus
-            git commit -m "Sync luci-app-advancedplus and luci-app-wolplus from VIKINGYFY/packages"
-          fi
-
-      # 同步 homeproxy 根目录文件
-      - name: Sync luci-app-homeproxy
-        run: |
-          # 定义临时目录
-          TEMP_DIR=$(mktemp -d)
-          echo "Temporary directory: $TEMP_DIR"
-
-          # 克隆 homeproxy 仓库到临时目录
-          git clone --depth 1 https://github.com/VIKINGYFY/homeproxy.git $TEMP_DIR/homeproxy
-
-          # 同步根目录文件到 luci-app-homeproxy
-          mkdir -p luci-app-homeproxy
-          rsync -a --delete --exclude='.git' $TEMP_DIR/homeproxy/ luci-app-homeproxy/
-
-          # 清理临时目录
-          rm -rf $TEMP_DIR
-
-          # 提交更改
-          if [ -n "$(git status --porcelain)" ]; then
-            git add luci-app-homeproxy
-            git commit -m "Sync luci-app-homeproxy from VIKINGYFY/homeproxy"
-          fi
-
+          
       # 推送更改到当前 Fork 仓库
       - name: Push Changes
         run: |
-          if [ -n "$(git status --porcelain)" ]; then
-            git push origin main
-          else
-            echo "No changes to push."
-          fi
+          git push origin main
