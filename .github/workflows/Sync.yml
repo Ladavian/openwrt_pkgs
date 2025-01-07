@@ -19,9 +19,9 @@ jobs:
       # 设置 Git 用户信息
       - name: Set Git User
         run: |
-          git config user.name "ftkey"
-          git config user.email "ftkey@qq.com"
-
+          git config --local user.name "github-actions[bot]"
+          git config --local user.email "<github-actions[bot]@users.noreply.github.com>"
+          
       # 通用同步函数
       - name: Sync Repositories
         run: |
