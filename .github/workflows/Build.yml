@@ -3,7 +3,7 @@ name: Build Release
 
 on:
   schedule:
-   - cron: '0 21 * * *' # 每天运行
+   - cron: '0 21 * * 6' # 每周六5点
   workflow_dispatch: # 手动触发
 
 permissions: write-all
@@ -24,7 +24,6 @@ jobs:
         sdk:
           - openwrt-23.05
           - openwrt-24.10
-          - master
 
     steps:
       - uses: actions/checkout@v4
