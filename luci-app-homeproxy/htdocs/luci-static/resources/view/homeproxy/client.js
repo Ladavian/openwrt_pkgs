@@ -1,7 +1,7 @@
 /*
  * SPDX-License-Identifier: GPL-2.0-only
  *
- * Copyright (C) 2022-2025 ImmortalWrt.org
+ * Copyright (C) 2022-2023 ImmortalWrt.org
  */
 
 'use strict';
@@ -40,7 +40,7 @@ const callWriteDomainList = rpc.declare({
 
 function getServiceStatus() {
 	return L.resolveDefault(callServiceList('homeproxy'), {}).then((res) => {
-		let isRunning = false;
+		var isRunning = false;
 		try {
 			isRunning = res['homeproxy']['instances']['sing-box-c']['running'];
 		} catch (e) { }
@@ -49,8 +49,8 @@ function getServiceStatus() {
 }
 
 function renderStatus(isRunning, version) {
-	let spanTemp = '<em><span style="color:%s"><strong>%s (sing-box v%s) %s</strong></span></em>';
-	let renderHTML;
+	var spanTemp = '<em><span style="color:%s"><strong>%s (sing-box v%s) %s</strong></span></em>';
+	var renderHTML;
 	if (isRunning)
 		renderHTML = spanTemp.format('green', _('HomeProxy'), version, _('RUNNING'));
 	else
@@ -78,21 +78,21 @@ function validatePortRange(section_id, value) {
 	return true;
 }
 
-let stubValidator = {
+var stubValidator = {
 	factory: validation,
-	apply(type, value, args) {
+	apply: function(type, value, args) {
 		if (value != null)
 			this.value = value;
 
 		return validation.types[type].apply(this, args);
 	},
-	assert(condition) {
+	assert: function(condition) {
 		return !!condition;
 	}
 };
 
 return view.extend({
-	load() {
+	load: function() {
 		return Promise.all([
 			uci.load('homeproxy'),
 			hp.getBuiltinFeatures(),
@@ -100,16 +100,16 @@ return view.extend({
 		]);
 	},
 
-	render(data) {
+	render: function(data) {
 		let m, s, o, ss, so;
 
-		let features = data[1],
+		var features = data[1],
 		    hosts = data[2]?.hosts;
 
 		/* Cache all configured proxy nodes, they will be called multiple times */
-		let proxy_nodes = {};
+		var proxy_nodes = {};
 		uci.sections(data[0], 'node', (res) => {
-			let nodeaddr = ((res.type === 'direct') ? res.override_address : res.address) || '',
+			var nodeaddr = ((res.type === 'direct') ? res.override_address : res.address) || '',
 			    nodeport = ((res.type === 'direct') ? res.override_port : res.port) || '';
 
 			proxy_nodes[res['.name']] =
@@ -124,7 +124,7 @@ return view.extend({
 		s.render = function () {
 			poll.add(function () {
 				return L.resolveDefault(getServiceStatus()).then((res) => {
-					let view = document.getElementById('service_status');
+					var view = document.getElementById('service_status');
 					view.innerHTML = renderStatus(res, features.version);
 				});
 			});
@@ -140,7 +140,7 @@ return view.extend({
 
 		o = s.taboption('routing', form.ListValue, 'main_node', _('Main node'));
 		o.value('nil', _('Disable'));
-		for (let i in proxy_nodes)
+		for (var i in proxy_nodes)
 			o.value(i, proxy_nodes[i]);
 		o.default = 'nil';
 		o.depends({'routing_mode': 'custom', '!reverse': true});
@@ -149,9 +149,9 @@ return view.extend({
 		o = s.taboption('routing', form.ListValue, 'main_udp_node', _('Main UDP node'));
 		o.value('nil', _('Disable'));
 		o.value('same', _('Same as main node'));
-		for (let i in proxy_nodes)
+		for (var i in proxy_nodes)
 			o.value(i, proxy_nodes[i]);
-		o.default = 'same';
+		o.default = 'nil';
 		o.depends({'routing_mode': /^((?!custom).)+$/, 'proxy_mode': /^((?!redirect$).)+$/});
 		o.rmempty = false;
 
@@ -159,13 +159,13 @@ return view.extend({
 			_('Support UDP, TCP, DoH, DoQ, DoT. TCP protocol will be used if not specified.'));
 		o.value('wan', _('WAN DNS (read from interface)'));
 		o.value('1.1.1.1', _('CloudFlare Public DNS (1.1.1.1)'));
-		o.value('8.8.8.8', _('Google Public DNS (8.8.8.8)'));
-		o.value('9.9.9.9', _('Quad9 Public DNS (9.9.9.9)'));
-		o.value('77.88.8.8', _('Yandex Public DNS (77.88.8.8)'));
-		o.value('94.140.14.140', _('AdGuard Public DNS (94.140.14.140)'));
-		o.value('185.222.222.222', _('DNS.SB Public DNS (185.222.222.222)'));
 		o.value('208.67.222.222', _('Cisco Public DNS (208.67.222.222)'));
-		o.default = '9.9.9.9';
+		o.value('8.8.8.8', _('Google Public DNS (8.8.8.8)'));
+		o.value('', '---');
+		o.value('223.5.5.5', _('Aliyun Public DNS (223.5.5.5)'));
+		o.value('119.29.29.29', _('Tencent Public DNS (119.29.29.29)'));
+		o.value('117.50.10.10', _('ThreatBook Public DNS (117.50.10.10)'));
+		o.default = '8.8.8.8';
 		o.rmempty = false;
 		o.depends({'routing_mode': 'custom', '!reverse': true});
 		o.validate = function(section_id, value) {
@@ -173,9 +173,9 @@ return view.extend({
 				if (!value)
 					return _('Expecting: %s').format(_('non-empty value'));
 
-				let ipv6_support = this.map.lookupOption('ipv6_support', section_id)[0].formvalue(section_id);
+				var ipv6_support = this.map.lookupOption('ipv6_support', section_id)[0].formvalue(section_id);
 				try {
-					let url = new URL(value);
+					var url = new URL(value);
 					if (stubValidator.apply('hostname', url.hostname))
 						return true;
 					else if (stubValidator.apply('ip4addr', url.hostname))
@@ -196,9 +196,10 @@ return view.extend({
 		o = s.taboption('routing', form.Value, 'china_dns_server', _('China DNS server'),
 			_('The dns server for resolving China domains. Support UDP, TCP, DoH, DoQ, DoT.'));
 		o.value('wan', _('WAN DNS (read from interface)'));
-		o.value('117.50.10.10', _('ThreatBook Public DNS (117.50.10.10)'));
+		o.value('223.5.5.5', _('Aliyun Public DNS (223.5.5.5)'));
+		o.value('210.2.4.8', _('CNNIC Public DNS (210.2.4.8)'));
 		o.value('119.29.29.29', _('Tencent Public DNS (119.29.29.29)'));
-		o.value('223.5.5.5', _('AliYun Public DNS (223.5.5.5)'));
+		o.value('117.50.10.10', _('ThreatBook Public DNS (117.50.10.10)'));
 		o.depends('routing_mode', 'bypass_mainland_china');
 		o.default = '223.5.5.5';
 		o.rmempty = false;
@@ -208,7 +209,7 @@ return view.extend({
 					return _('Expecting: %s').format(_('non-empty value'));
 
 				try {
-					let url = new URL(value);
+					var url = new URL(value);
 					if (stubValidator.apply('hostname', url.hostname))
 						return true;
 					else if (stubValidator.apply('ip4addr', url.hostname))
@@ -246,8 +247,8 @@ return view.extend({
 		o.validate = function(section_id, value) {
 			if (section_id && value && value !== 'common') {
 
-				let ports = [];
-				for (let i of value.split(',')) {
+				var ports = [];
+				for (var i of value.split(',')) {
 					if (!stubValidator.apply('port', i) && !stubValidator.apply('portrange', i))
 						return _('Expecting: %s').format(_('valid port value'));
 					if (ports.includes(i))
@@ -300,7 +301,7 @@ return view.extend({
 		so.depends('homeproxy.config.proxy_mode', 'tun');
 		so.rmempty = false;
 		so.onchange = function(ev, section_id, value) {
-			let desc = ev.target.nextElementSibling;
+			var desc = ev.target.nextElementSibling;
 			if (value === 'mixed')
 				desc.innerHTML = _('Mixed <code>system</code> TCP stack and <code>gVisor</code> UDP stack.')
 			else if (value === 'gvisor')
@@ -332,7 +333,7 @@ return view.extend({
 
 		so = ss.option(form.ListValue, 'domain_strategy', _('Domain strategy'),
 			_('If set, the requested domain name will be resolved to IP before routing.'));
-		for (let i in hp.dns_strategy)
+		for (var i in hp.dns_strategy)
 			so.value(i, hp.dns_strategy[i])
 
 		so = ss.option(form.Flag, 'sniff_override', _('Override destination'),
@@ -386,14 +387,14 @@ return view.extend({
 		so = ss.option(form.ListValue, 'node', _('Node'),
 			_('Outbound node'));
 		so.value('urltest', _('URLTest'));
-		for (let i in proxy_nodes)
+		for (var i in proxy_nodes)
 			so.value(i, proxy_nodes[i]);
 		so.validate = L.bind(hp.validateUniqueValue, this, data[0], 'routing_node', 'node');
 		so.editable = true;
 
 		so = ss.option(form.ListValue, 'domain_strategy', _('Domain strategy'),
 			_('If set, the server domain name will be resolved to IP before connecting.<br/>'));
-		for (let i in hp.dns_strategy)
+		for (var i in hp.dns_strategy)
 			so.value(i, hp.dns_strategy[i]);
 		so.depends({'node': 'urltest', '!reverse': true});
 		so.modalonly = true;
@@ -421,9 +422,9 @@ return view.extend({
 		}
 		so.validate = function(section_id, value) {
 			if (section_id && value) {
-				let node = this.map.lookupOption('node', section_id)[0].formvalue(section_id);
+				var node = this.map.lookupOption('node', section_id)[0].formvalue(section_id);
 
-				let conflict = false;
+				var conflict = false;
 				uci.sections(data[0], 'routing_node', (res) => {
 					if (res['.name'] !== section_id) {
 						if (res.outbound === section_id && res['.name'] == value)
@@ -443,7 +444,7 @@ return view.extend({
 
 		so = ss.option(hp.CBIStaticList, 'urltest_nodes', _('URLTest nodes'),
 			_('List of nodes to test.'));
-		for (let i in proxy_nodes)
+		for (var i in proxy_nodes)
 			so.value(i, proxy_nodes[i]);
 		so.depends('node', 'urltest');
 		so.modalonly = true;
@@ -453,7 +454,7 @@ return view.extend({
 		so.validate = function(section_id, value) {
 			if (section_id && value) {
 				try {
-					let url = new URL(value);
+					var url = new URL(value);
 					if (!url.hostname)
 						return _('Expecting: %s').format(_('valid URL'));
 				}
@@ -472,7 +473,7 @@ return view.extend({
 		so.datatype = 'uinteger';
 		so.validate = function(section_id, value) {
 			if (section_id && value) {
-				let idle_timeout = this.map.lookupOption('urltest_idle_timeout', section_id)[0].formvalue(section_id) || '1800';
+				var idle_timeout = this.map.lookupOption('urltest_idle_timeout', section_id)[0].formvalue(section_id) || '1800';
 				if (parseInt(value) > parseInt(idle_timeout))
 					return _('Test interval must be less or equal than idle timeout.');
 			}
@@ -705,7 +706,7 @@ return view.extend({
 		ss = o.subsection;
 		so = ss.option(form.ListValue, 'default_strategy', _('Default DNS strategy'),
 			_('The DNS strategy for resolving the domain name in the address.'));
-		for (let i in hp.dns_strategy)
+		for (var i in hp.dns_strategy)
 			so.value(i, hp.dns_strategy[i]);
 
 		so = ss.option(form.ListValue, 'default_server', _('Default DNS server'));
@@ -787,7 +788,7 @@ return view.extend({
 					return _('Expecting: %s').format(_('non-empty value'));
 
 				try {
-					let url = new URL(value);
+					var url = new URL(value);
 					if (stubValidator.apply('hostname', url.hostname))
 						return true;
 					else if (stubValidator.apply('ip4addr', url.hostname))
@@ -823,7 +824,7 @@ return view.extend({
 		}
 		so.validate = function(section_id, value) {
 			if (section_id && value) {
-				let conflict = false;
+				var conflict = false;
 				uci.sections(data[0], 'dns_server', (res) => {
 					if (res['.name'] !== section_id)
 						if (res.address_resolver === section_id && res['.name'] == value)
@@ -839,13 +840,13 @@ return view.extend({
 
 		so = ss.option(form.ListValue, 'address_strategy', _('Address strategy'),
 			_('The domain strategy for resolving the domain name in the address.'));
-		for (let i in hp.dns_strategy)
+		for (var i in hp.dns_strategy)
 			so.value(i, hp.dns_strategy[i]);
 		so.modalonly = true;
 
 		so = ss.option(form.ListValue, 'resolve_strategy', _('Resolve strategy'),
 			_('Default domain strategy for resolving the domain names.'));
-		for (let i in hp.dns_strategy)
+		for (var i in hp.dns_strategy)
 			so.value(i, hp.dns_strategy[i]);
 		so.editable = true;
 
@@ -1149,7 +1150,7 @@ return view.extend({
 					return _('Expecting: %s').format(_('non-empty value'));
 
 				try {
-					let url = new URL(value);
+					var url = new URL(value);
 					if (!url.hostname)
 						return _('Expecting: %s').format(_('valid URL'));
 				}
@@ -1290,7 +1291,7 @@ return view.extend({
 		}
 		so.validate = function(section_id, value) {
 			if (section_id && value)
-				for (let i of value.split('\n'))
+				for (var i of value.split('\n'))
 					if (i && !stubValidator.apply('hostname', i))
 						return _('Expecting: %s').format(_('valid hostname'));
 
@@ -1319,7 +1320,7 @@ return view.extend({
 		}
 		so.validate = function(section_id, value) {
 			if (section_id && value)
-				for (let i of value.split('\n'))
+				for (var i of value.split('\n'))
 					if (i && !stubValidator.apply('hostname', i))
 						return _('Expecting: %s').format(_('valid hostname'));
 

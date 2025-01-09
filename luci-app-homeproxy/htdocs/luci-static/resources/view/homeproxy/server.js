@@ -1,7 +1,7 @@
 /*
  * SPDX-License-Identifier: GPL-2.0-only
  *
- * Copyright (C) 2022-2025 ImmortalWrt.org
+ * Copyright (C) 2022-2023 ImmortalWrt.org
  */
 
 'use strict';
@@ -23,7 +23,7 @@ const callServiceList = rpc.declare({
 
 function getServiceStatus() {
 	return L.resolveDefault(callServiceList('homeproxy'), {}).then((res) => {
-		let isRunning = false;
+		var isRunning = false;
 		try {
 			isRunning = res['homeproxy']['instances']['sing-box-s']['running'];
 		} catch (e) { }
@@ -32,8 +32,8 @@ function getServiceStatus() {
 }
 
 function renderStatus(isRunning, version) {
-	let spanTemp = '<em><span style="color:%s"><strong>%s (sing-box v%s) %s</strong></span></em>';
-	let renderHTML;
+	var spanTemp = '<em><span style="color:%s"><strong>%s (sing-box v%s) %s</strong></span></em>';
+	var renderHTML;
 	if (isRunning)
 		renderHTML = spanTemp.format('green', _('HomeProxy Server'), version, _('RUNNING'));
 	else
@@ -43,10 +43,10 @@ function renderStatus(isRunning, version) {
 }
 
 function handleGenKey(option) {
-	let section_id = this.section.section;
-	let type = this.section.getOption('type').formvalue(section_id);
-	let widget = this.map.findElement('id', 'widget.cbid.homeproxy.%s.%s'.format(section_id, option));
-	let password, required_method;
+	var section_id = this.section.section;
+	var type = this.section.getOption('type').formvalue(section_id);
+	var widget = this.map.findElement('id', 'widget.cbid.homeproxy.%s.%s'.format(section_id, option));
+	var password, required_method;
 
 	if (option === 'uuid')
 		required_method = 'uuid';
@@ -83,16 +83,16 @@ function handleGenKey(option) {
 }
 
 return view.extend({
-	load() {
+	load: function() {
 		return Promise.all([
 			uci.load('homeproxy'),
 			hp.getBuiltinFeatures()
 		]);
 	},
 
-	render(data) {
+	render: function(data) {
 		let m, s, o;
-		let features = data[1];
+		var features = data[1];
 
 		m = new form.Map('homeproxy', _('HomeProxy Server'),
 			_('The modern ImmortalWrt proxy platform for ARM64/AMD64.'));
@@ -101,7 +101,7 @@ return view.extend({
 		s.render = function () {
 			poll.add(function () {
 				return L.resolveDefault(getServiceStatus()).then((res) => {
-					let view = document.getElementById('service_status');
+					var view = document.getElementById('service_status');
 					view.innerHTML = renderStatus(res, features.version);
 				});
 			});
@@ -183,7 +183,7 @@ return view.extend({
 		o.depends('type', 'trojan');
 		o.depends('type', 'tuic');
 		o.renderWidget = function() {
-			let node = form.Value.prototype.renderWidget.apply(this, arguments);
+			var node = form.Value.prototype.renderWidget.apply(this, arguments);
 
 			(node.querySelector('.control-group') || node).appendChild(E('button', {
 				'class': 'cbi-button cbi-button-apply',
@@ -195,12 +195,12 @@ return view.extend({
 		}
 		o.validate = function(section_id, value) {
 			if (section_id) {
-				let type = this.map.lookupOption('type', section_id)[0].formvalue(section_id);
-				let required_type = [ 'http', 'mixed', 'naive', 'socks', 'shadowsocks' ];
+				var type = this.map.lookupOption('type', section_id)[0].formvalue(section_id);
+				var required_type = [ 'http', 'mixed', 'naive', 'socks', 'shadowsocks' ];
 
 				if (required_type.includes(type)) {
 					if (type === 'shadowsocks') {
-						let encmode = this.map.lookupOption('shadowsocks_encrypt_method', section_id)[0].formvalue(section_id);
+						var encmode = this.map.lookupOption('shadowsocks_encrypt_method', section_id)[0].formvalue(section_id);
 						if (encmode === 'none')
 							return true;
 						else if (encmode === '2022-blake3-aes-128-gcm')
@@ -266,7 +266,7 @@ return view.extend({
 		o.depends('type', 'hysteria');
 		o.depends({'type': 'hysteria2', 'hysteria_obfs_type': /[\s\S]/});
 		o.renderWidget = function() {
-			let node = form.Value.prototype.renderWidget.apply(this, arguments);
+			var node = form.Value.prototype.renderWidget.apply(this, arguments);
 
 			(node.querySelector('.control-group') || node).appendChild(E('button', {
 				'class': 'cbi-button cbi-button-apply',
@@ -319,7 +319,7 @@ return view.extend({
 
 		/* Shadowsocks config */
 		o = s.option(form.ListValue, 'shadowsocks_encrypt_method', _('Encrypt method'));
-		for (let i of hp.shadowsocks_encrypt_methods)
+		for (var i of hp.shadowsocks_encrypt_methods)
 			o.value(i);
 		o.default = 'aes-128-gcm';
 		o.depends('type', 'shadowsocks');
@@ -331,7 +331,7 @@ return view.extend({
 		o.depends('type', 'vless');
 		o.depends('type', 'vmess');
 		o.renderWidget = function() {
-			let node = form.Value.prototype.renderWidget.apply(this, arguments);
+			var node = form.Value.prototype.renderWidget.apply(this, arguments);
 
 			(node.querySelector('.control-group') || node).appendChild(E('button', {
 				'class': 'cbi-button cbi-button-apply',
@@ -402,7 +402,7 @@ return view.extend({
 		o.depends('type', 'vless');
 		o.depends('type', 'vmess');
 		o.onchange = function(ev, section_id, value) {
-			let desc = this.map.findElement('id', 'cbid.homeproxy.%s.transport'.format(section_id)).nextElementSibling;
+			var desc = this.map.findElement('id', 'cbid.homeproxy.%s.transport'.format(section_id)).nextElementSibling;
 			if (value === 'http')
 				desc.innerHTML = _('TLS is not enforced. If TLS is not configured, plain HTTP 1.1 is used.');
 			else if (value === 'quic')
@@ -410,7 +410,7 @@ return view.extend({
 			else
 				desc.innerHTML = _('No TCP transport, plain HTTP is merged into the HTTP transport.');
 
-			let tls_element = this.map.findElement('id', 'cbid.homeproxy.%s.tls'.format(section_id)).firstElementChild;
+			var tls_element = this.map.findElement('id', 'cbid.homeproxy.%s.tls'.format(section_id)).firstElementChild;
 			if ((value === 'http' && tls_element.checked) || (value === 'grpc' && !features.with_grpc))
 				this.map.findElement('id', 'cbid.homeproxy.%s.http_idle_timeout'.format(section_id)).nextElementSibling.innerHTML =
 					_('Specifies the time (in seconds) until idle clients should be closed with a GOAWAY frame. PING frames are not considered as activity.');
@@ -539,8 +539,8 @@ return view.extend({
 		o.rmempty = false;
 		o.validate = function(section_id, value) {
 			if (section_id) {
-				let type = this.map.lookupOption('type', section_id)[0].formvalue(section_id);
-				let tls = this.map.findElement('id', 'cbid.homeproxy.%s.tls'.format(section_id)).firstElementChild;
+				var type = this.map.lookupOption('type', section_id)[0].formvalue(section_id);
+				var tls = this.map.findElement('id', 'cbid.homeproxy.%s.tls'.format(section_id)).firstElementChild;
 
 				if (['hysteria', 'hysteria2', 'tuic'].includes(type)) {
 					tls.checked = true;
@@ -567,7 +567,7 @@ return view.extend({
 		o = s.option(form.ListValue, 'tls_min_version', _('Minimum TLS version'),
 			_('The minimum TLS version that is acceptable.'));
 		o.value('', _('default'));
-		for (let i of hp.tls_versions)
+		for (var i of hp.tls_versions)
 			o.value(i);
 		o.depends('tls', '1');
 		o.modalonly = true;
@@ -575,14 +575,14 @@ return view.extend({
 		o = s.option(form.ListValue, 'tls_max_version', _('Maximum TLS version'),
 			_('The maximum TLS version that is acceptable.'));
 		o.value('', _('default'));
-		for (let i of hp.tls_versions)
+		for (var i of hp.tls_versions)
 			o.value(i);
 		o.depends('tls', '1');
 		o.modalonly = true;
 
 		o = s.option(hp.CBIStaticList, 'tls_cipher_suites', _('Cipher suites'),
 			_('The elliptic curves that will be used in an ECDHE handshake, in preference order. If empty, the default will be used.'));
-		for (let i of hp.tls_cipher_suites)
+		for (var i of hp.tls_cipher_suites)
 			o.value(i);
 		o.depends('tls', '1');
 		o.optional = true;
@@ -636,10 +636,10 @@ return view.extend({
 			o.modalonly = true;
 
 			o = s.option(form.ListValue, 'tls_dns01_provider', _('DNS provider'));
-			o.value('alidns', _('AliYun'));
-			o.value('cfdns', _('CloudFlare'));
+			o.value('alidns', _('Alibaba Cloud DNS'));
+			o.value('cloudflare', _('Cloudflare'));
 			o.depends('tls_dns01_challenge', '1');
-			o.default = 'cfdns';
+			o.default = 'cloudflare';
 			o.rmempty = false;
 			o.modalonly = true;
 
@@ -659,7 +659,7 @@ return view.extend({
 			o.modalonly = true;
 
 			o = s.option(form.Value, 'tls_dns01_cf_api_token', _('API token'));
-			o.depends('tls_dns01_provider', 'cfdns');
+			o.depends('tls_dns01_provider', 'cloudflare');
 			o.rmempty = false;
 			o.modalonly = true;
 
@@ -808,7 +808,7 @@ return view.extend({
 
 		o = s.option(form.ListValue, 'domain_strategy', _('Domain strategy'),
 			_('If set, the requested domain name will be resolved to IP before routing.'));
-		for (let i in hp.dns_strategy)
+		for (var i in hp.dns_strategy)
 			o.value(i, hp.dns_strategy[i])
 		o.modalonly = true;
 

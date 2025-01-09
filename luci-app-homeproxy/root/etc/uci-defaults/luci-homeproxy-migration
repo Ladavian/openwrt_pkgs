@@ -1,7 +1,10 @@
 #!/bin/sh
 
 china_dns_server="$(uci -q get "homeproxy.config.china_dns_server")"
-if echo "$china_dns_server" | grep -q ","; then
+if [ "$china_dns_server" = "wan_114" ]; then
+	uci -q delete "homeproxy.config.china_dns_server"
+	uci -q set "homeproxy.config.china_dns_server"="114.114.114.114"
+elif echo "$china_dns_server" | grep -q ","; then
 	uci -q delete "homeproxy.config.china_dns_server"
 	uci -q set "homeproxy.config.china_dns_server"="${china_dns_server%%,*}"
 elif echo "$china_dns_server" | grep -q " "; then

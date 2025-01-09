@@ -1,7 +1,7 @@
 /*
  * SPDX-License-Identifier: GPL-2.0-only
  *
- * Copyright (C) 2022-2025 ImmortalWrt.org
+ * Copyright (C) 2022-2023 ImmortalWrt.org
  */
 
 'use strict';
@@ -15,7 +15,7 @@
 'require view';
 
 /* Thanks to luci-app-aria2 */
-const css = '				\
+var css = '				\
 #log_textarea {				\
 	padding: 10px;			\
 	text-align: left;		\
@@ -29,7 +29,7 @@ const css = '				\
 	background-color: #33ccff;	\
 }';
 
-const hp_dir = '/var/run/homeproxy';
+var hp_dir = '/var/run/homeproxy';
 
 function getConnStat(self, site) {
 	const callConnStat = rpc.declare({
@@ -44,7 +44,7 @@ function getConnStat(self, site) {
 			'class': 'btn cbi-button cbi-button-action',
 			'click': ui.createHandlerFn(this, function() {
 				return L.resolveDefault(callConnStat(site), {}).then((ret) => {
-                                        let ele = self.default.firstElementChild.nextElementSibling;
+                                        var ele = self.default.firstElementChild.nextElementSibling;
 					if (ret.result) {
 						ele.style.setProperty('color', 'green');
                                                 ele.innerHTML = _('passed');
@@ -76,7 +76,7 @@ function getResVersion(self, type) {
 	});
 
 	return L.resolveDefault(callResVersion(type), {}).then((res) => {
-		let spanTemp = E('div', { 'style': 'cbi-value-field' }, [
+		var spanTemp = E('div', { 'style': 'cbi-value-field' }, [
 			E('button', {
 				'class': 'btn cbi-button cbi-button-action',
 				'click': ui.createHandlerFn(this, function() {
@@ -121,7 +121,7 @@ function getRuntimeLog(name, filename) {
 		expect: { '': {} }
 	});
 
-	let log_textarea = E('div', { 'id': 'log_textarea' },
+	var log_textarea = E('div', { 'id': 'log_textarea' },
 		E('img', {
 			'src': L.resource('icons/loading.gif'),
 			'alt': _('Loading'),
@@ -129,7 +129,7 @@ function getRuntimeLog(name, filename) {
 		}, _('Collecting data...'))
 	);
 
-	let log;
+	var log;
 	poll.add(L.bind(function() {
 		return fs.read_direct(String.format('%s/%s.log', hp_dir, filename), 'text')
 		.then(function(res) {
@@ -176,8 +176,15 @@ function getRuntimeLog(name, filename) {
 }
 
 return view.extend({
-	render() {
-		let m, s, o;
+	load: function() {
+		return Promise.all([
+			uci.load('homeproxy')
+		]);
+	},
+
+	render: function(data) {
+		var m, s, o;
+		var routing_mode = uci.get(data[0], 'config', 'routing_mode') || 'bypass_mainland_china';
 
 		m = new form.Map('homeproxy');
 

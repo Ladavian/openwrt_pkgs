@@ -7,12 +7,13 @@
 
 'use strict';
 
-import { writefile } from 'fs';
+import { readfile, writefile } from 'fs';
 import { cursor } from 'uci';
 
 import {
-	isEmpty, strToBool, strToInt,
-	removeBlankAttrs, HP_DIR, RUN_DIR
+	executeCommand, isEmpty, strToBool, strToInt,
+	removeBlankAttrs, validateHostname, validation,
+	HP_DIR, RUN_DIR
 } from 'homeproxy';
 
 /* UCI config start */
