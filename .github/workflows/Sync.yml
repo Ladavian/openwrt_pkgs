@@ -77,6 +77,8 @@ jobs:
           sync_repo luci-app-alist-pkgs https://github.com/sbwml/luci-app-alist.git "luci-app-alist,alist"
           #sync_repo luci-theme-argon-pkgs/luci-theme-argon https://github.com/jerrykuku/luci-theme-argon.git "" "master"
           #sync_repo luci-theme-argon-pkgs/luci-app-argon-config https://github.com/jerrykuku/luci-app-argon-config.git "" "master"
+          sync_repo luci-app-onliner https://github.com/ftkey/luci-app-onliner.git ""
+
           
 
           
