@@ -51,7 +51,7 @@ jobs:
         id: generate_tag
         run: |
           DATE=$(date +'%Y%m%d')
-          echo "TAG_NAME=v${DATE}" >> $GITHUB_ENV
+          echo "TAG_NAME=v${DATE}_${{inputs.PACKAGE}}" >> $GITHUB_ENV
           
       - name: Upload packages
         uses: ncipollo/release-action@v1
