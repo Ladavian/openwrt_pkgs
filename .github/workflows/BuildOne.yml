@@ -1,0 +1,63 @@
+name: Build One Release
+
+
+on:
+  workflow_dispatch: # 手动触发
+    inputs:
+      PACKAGE:
+        description: '编译插件包，仅限一个'
+        required: true
+        type: string
+
+permissions: write-all
+
+
+jobs:
+  build:
+    name: Build ${{ matrix.arch }}-${{ matrix.sdk }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        arch:
+          - aarch64_cortex-a53
+        sdk:
+          - openwrt-24.10
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Build
+        uses: sbwml/openwrt-gh-action-sdk@go1.23
+        env:
+          ARCH: ${{ matrix.arch }}-${{ matrix.sdk }}
+          FEEDNAME: packages_ci
+          PACKAGES:  ${{inputs.PACKAGE}}
+          NO_REFRESH_CHECK: true
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.arch }}-${{ matrix.sdk }}
+          path: bin/packages/${{ matrix.arch }}/packages_ci/*.{ipk,apk}
+
+      - name: Create compress files
+        run: |
+          tar -zcvf packages-${{ matrix.sdk }}-${{ matrix.arch }}.tar.gz -C bin/packages/${{ matrix.arch }}/ packages_ci
+
+      - name: Generate Tag Name
+        id: generate_tag
+        run: |
+          DATE=$(date +'%Y%m%d')
+          echo "TAG_NAME=v${DATE}" >> $GITHUB_ENV
+          
+      - name: Upload packages
+        uses: ncipollo/release-action@v1
+        with:
+          tag: ${{ env.TAG_NAME }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+          allowUpdates: true
+          replacesArtifacts: true
+          artifacts: "packages-${{ matrix.sdk }}-${{ matrix.arch }}.tar.gz"
