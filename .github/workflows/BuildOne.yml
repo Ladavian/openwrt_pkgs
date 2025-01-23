@@ -23,6 +23,7 @@ jobs:
           - aarch64_cortex-a53
         sdk:
           - openwrt-24.10
+          - openwrt-23.05
 
     steps:
       - uses: actions/checkout@v4
