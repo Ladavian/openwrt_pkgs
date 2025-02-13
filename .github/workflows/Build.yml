@@ -35,7 +35,7 @@ jobs:
         env:
           ARCH: ${{ matrix.arch }}-${{ matrix.sdk }}
           FEEDNAME: packages_ci
-          PACKAGES: luci-app-advancedplus luci-app-homeproxy luci-app-wolplus luci-app-adguardhome luci-app-passwall luci-app-socat luci-app-vlmcsd luci-theme-argon luci-app-argon-config luci-app-alist luci-app-onliner
+          PACKAGES: luci-app-nikki luci-app-advancedplus luci-app-homeproxy luci-app-wolplus luci-app-adguardhome luci-app-passwall luci-app-socat luci-app-vlmcsd luci-theme-argon luci-app-argon-config luci-app-alist luci-app-onliner
           NO_REFRESH_CHECK: true
 
       - name: Upload artifacts
