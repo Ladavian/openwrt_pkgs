@@ -2053,11 +2053,13 @@ td>table>tbody>tr>td,
 
 .cbi-value input[type="text"]+.cbi-button-neutral,
 .cbi-value input[type="password"]+.cbi-button-neutral {
-  height: 42px;
+  height: 41.5px;
   border-bottom-left-radius: 0;
   border-top-left-radius: 0;
   margin-left: 0;
   border: 0;
+  position: relative;
+  top: -0.8px;
 }
 
 #cbi-firewall-zone .cbi-input-select,
@@ -3609,11 +3611,16 @@ div[style*="display:grid;grid-template-columns:repeat"] .ifacebox .ifacebox-body
 
 [data-page="admin-system-flash"] .modal .btn {
   white-space: normal !important;
+  text-align: left !important;
 }
 
 [data-page="admin-system-flash"] .modal label.btn {
-  background-color: #5e72e4;
-  background-color: var(--primary);
+  background-color: hsl(from var(--primary) h s l / 20%);
+  color: var(--primary) !important;
+}
+
+[data-page="admin-system-flash"] input[type="checkbox"] {
+  border: 1px solid hsl(from var(--primary) h s l / 60%) !important;
 }
 
 /* wireless overview */
@@ -4131,7 +4138,7 @@ pre.command-output {
   }
 
   .cbi-value-title {
-    width: 14rem;
+    width: 11rem;
     padding-right: 1rem;
   }
 
@@ -4735,6 +4742,12 @@ div#add_link_div {
 
 .Dashboard .devices-list .devices-info, .Dashboard .router-status-wifi .wifi-info > hr:last-child {
   margin-top: 0.575rem;
+}
+
+/* luci-app-mwan3 */
+#mwan3-service-status > .alert-message {
+  height: 6rem !important;
+  min-height: 8rem !important;
 }
 
 @media screen and (max-width: 600px) {
