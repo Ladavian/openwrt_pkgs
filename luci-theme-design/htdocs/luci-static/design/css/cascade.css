@@ -87,7 +87,6 @@ body {
   padding: 0px;
   height: 100%;
   font-size: 16px;
-  font-family: var(--font-family-sans-serif);
 }
 
 html {
@@ -420,7 +419,7 @@ h5 {
 }
 
 .login-page {
-  height: 100%
+  height: 500px;
 }
 
 .login-page .video {
@@ -985,6 +984,8 @@ div[style="width:100%;height:300px;border:1px solid #000;background:#fff"] {
   text-decoration: none;
   cursor: default;
   font-size: 1rem;
+  font-weight: 700;
+  color: #5ea69b;
   transition: all .2s;
   position: relative
 }
@@ -1536,7 +1537,7 @@ tr>th,
 .tr>.th,
 .cbi-section-table-row::before,
 #cbi-wireless>#wifi_assoclist_table>.tr:nth-child(2) {
-  border-top: thin solid #ddd;
+  border-top: thin solid #eee;
   padding: 1.1em 1.5rem;
 }
 
@@ -2552,11 +2553,11 @@ td>table>tbody>tr>td,
   height: 22px;
   margin: 6px 0;
   /* border: thin solid #999; */
-  background: #eee;
+  background: #ccc;
   border-radius: 12px;
   overflow: hidden;
-  color: #2e2b60;
-  color: var(--progressbar-font-color);
+  color: #ffffff;
+  /* color: var(--progressbar-font-color);  */
 }
 
 .cbi-progressbar>div {
@@ -3941,11 +3942,11 @@ pre.command-output {
   }
 
   .main-left {
-    width: calc(0% + 13rem);
+    width: calc(0% + 16rem);
   }
 
   .main-right {
-    width: calc(100% - 13rem);
+    width: calc(100% - 16rem);
   }
 
   .btn:not(button),
