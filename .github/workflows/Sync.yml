@@ -67,7 +67,7 @@ jobs:
           }
           # 调用同步函数
           sync_repo luci-app-advancedplus https://github.com/sirpdboy/luci-app-advancedplus.git ""
-          sync_repo luci-app-timecontrol https://github.com/sirpdboy/luci-app-timecontrol.git "luci-app-timecontrol" "main"
+          sync_repo luci-app-timecontrol https://github.com/sirpdboy/luci-app-timecontrol.git "luci-app-nft-timecontrol" "main"
           sync_repo luci-app-wolplus https://github.com/sundaqiang/openwrt-packages.git "luci-app-wolplus" "master"
           sync_repo luci-app-homeproxy https://github.com/VIKINGYFY/homeproxy.git "" "main"
           sync_repo luci-app-adguardhome https://github.com/sirpdboy/luci-app-adguardhome.git "" "js"
