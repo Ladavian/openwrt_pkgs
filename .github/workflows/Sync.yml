@@ -70,7 +70,7 @@ jobs:
           sync_repo luci-app-timecontrol https://github.com/sirpdboy/luci-app-timecontrol.git "luci-app-nft-timecontrol" "main"
           sync_repo luci-app-wolplus https://github.com/sundaqiang/openwrt-packages.git "luci-app-wolplus" "master"
           sync_repo luci-app-homeproxy https://github.com/VIKINGYFY/homeproxy.git "" "main"
-          sync_repo luci-app-adguardhome https://github.com/sirpdboy/luci-app-adguardhome.git "" "js"
+          sync_repo luci-app-adguardhome https://github.com/kenzok8/small-package.git "luci-app-adguardhome" "main"
           sync_repo luci-app-passwall https://github.com/xiaorouji/openwrt-passwall.git luci-app-passwall
           sync_repo luci-app-socat https://github.com/sbwml/openwrt_pkgs.git luci-app-socat
           sync_repo luci-app-openclash https://github.com/vernesong/OpenClash.git "luci-app-openclash" "master"
