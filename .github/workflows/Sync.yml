@@ -86,7 +86,7 @@ jobs:
           sync_repo luci-app-mosdns-pkgs https://github.com/sbwml/luci-app-mosdns.git "luci-app-mosdns,mosdns,v2dat" "v5" 
           sync_repo luci-theme-design https://github.com/coolsnowwolf/luci.git "themes/luci-theme-design"  "openwrt-23.05" 
           sync_repo luci-app-openlist2-pkgs https://github.com/sbwml/luci-app-openlist2.git "luci-app-openlist2,openlist2"
-          sync_repo luci-theme-kucat https://github.com/sirpdboy/luci-theme-kucat/tree/js/luci-theme-kucat.git "luci-theme-kucat"
+          sync_repo luci-theme-kucat https://github.com/sirpdboy/luci-theme-kucat.git "luci-theme-kucat" "js" 
 
 
 
