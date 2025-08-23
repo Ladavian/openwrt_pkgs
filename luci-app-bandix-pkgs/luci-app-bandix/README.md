@@ -38,6 +38,17 @@ LuCI Bandix is developed based on the LuCI framework, offering network traffic m
 - Persistent data storage
 - Historical traffic trends and charts
 
+
+## Third-party Dependencies
+
+luci-app-bandix requires the following dependency packages:
+
+- **curl**: HTTP client library for network requests
+- **luci-lib-jsonc**: JSON parsing library for data processing
+
+These dependencies will be automatically installed when installing luci-app-bandix, but some firmware may require manual installation of these dependency packages.
+
+
 ## Version Dependencies
 
 The following table shows the version dependency relationship between luci-app-bandix and openwrt-bandix:
@@ -58,7 +69,7 @@ Please ensure you install matching versions to ensure compatibility and proper f
    Download the appropriate package for your device from [openwrt-bandix Releases](https://github.com/timsaya/openwrt-bandix/releases), then install:
 
    ```bash
-   opkg install bandix_latest_architecture.ipk  # (or apk add bandix_latest_architecture.apk)
+   opkg install bandix_latest_architecture.ipk  # (or apk add --allow-untrusted bandix_latest_architecture.apk)
    ```
 
 2. Install the luci-app-bandix frontend
@@ -66,24 +77,12 @@ Please ensure you install matching versions to ensure compatibility and proper f
    Download the package from [luci-app-bandix Releases](https://github.com/timsaya/luci-app-bandix/releases), then install:
 
    ```bash
-   opkg install luci-app-bandix_latest_all.ipk  # (or apk add luci-app-bandix_latest_all.apk)
+   opkg install luci-app-bandix_latest_all.ipk  # (or apk add --allow-untrusted luci-app-bandix_latest_all.apk)
    ```
 
 3. Configure your LAN interface in settings
 
-   After installation, go to the Bandix settings page and select your LAN interface to enable proper monitoring. Make sure to check the "Enable" option to start the service.
-
-## Configuration
-
-After installation, you can access the Bandix application through the LuCI web interface. The application is located under the "Network" menu.
-
-
-## Community & Support
-
-Join our Discord community for help, discussions, and updates:
-
-
-- https://discord.gg/zNxxA2J2
+   After installation, you can access the Bandix application through the LuCI web interface under the "Network" menu. Go to the Bandix settings page and select your LAN interface to enable proper monitoring. Make sure to check the "Enable" option to start the service.
 
 
 
