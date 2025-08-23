@@ -86,6 +86,8 @@ jobs:
           sync_repo luci-app-openlist2-pkgs https://github.com/sbwml/luci-app-openlist2.git "luci-app-openlist2,openlist2"
           sync_repo luci-theme-kucat https://github.com/sirpdboy/luci-theme-kucat.git "luci-theme-kucat" "js" 
           sync_repo luci-app-lucky-pkgs https://github.com/sirpdboy/luci-app-lucky.git "luci-app-lucky,lucky" "main"
+          sync_repo luci-app-bandix-pkgs https://github.com/timsaya/openwrt-bandix.git "bandix" "main"
+          sync_repo luci-app-bandix-pkgs https://github.com/timsaya/luci-app-bandix.git "luci-app-bandix" "main"
 
 
 
