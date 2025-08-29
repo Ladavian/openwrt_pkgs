@@ -88,6 +88,7 @@ jobs:
           sync_repo luci-app-lucky-pkgs https://github.com/gdy666/luci-app-lucky.git "luci-app-lucky,lucky" "main"
           sync_repo luci-app-bandix-pkgs/bandix https://github.com/timsaya/openwrt-bandix.git "" "main"
           sync_repo luci-app-bandix-pkgs/luci-app-bandix https://github.com/timsaya/luci-app-bandix.git "" "main"
+          sync_repo luci-theme-aurora https://github.com/eamonxg/luci-theme-aurora.git "" "master"
 
 
 
