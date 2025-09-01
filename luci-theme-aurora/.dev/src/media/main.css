@@ -118,7 +118,7 @@
     }
 
     body {
-      @apply dark:from-aurora-night-slate dark:via-aurora-night-teal dark:to-aurora-night-emerald relative min-h-screen overflow-x-hidden bg-gradient-to-br from-slate-50 via-slate-100 to-slate-200 bg-fixed text-sm leading-relaxed font-normal text-slate-900 transition-all duration-300 before:pointer-events-none before:fixed before:inset-0 before:-z-10 before:content-[''] dark:bg-gradient-to-br dark:text-slate-100;
+      @apply dark:from-aurora-night-slate dark:via-aurora-night-teal dark:to-aurora-night-emerald relative min-h-screen overflow-x-hidden bg-gradient-to-br from-slate-50 via-slate-100 to-slate-200 bg-fixed text-sm leading-relaxed font-normal text-slate-900 transition-all duration-300 before:pointer-events-none before:fixed before:inset-0 before:-z-10 before:content-['\00A0'] dark:bg-gradient-to-br dark:text-slate-100;
       h1,
       h2,
       h3,
@@ -167,33 +167,10 @@
   }
 }
 
-@layer utilities {
-  .left {
-    @apply md:text-left;
-  }
-  .right {
-    @apply md:text-right;
-  }
-  .top {
-    @apply md:align-top;
-  }
-  .bottom {
-    @apply md:align-bottom;
-  }
-  .center {
-    @apply md:text-center;
-  }
-  .middle {
-    @apply md:align-middle;
-  }
-}
-
 @layer components {
   @layer layout {
-    @layer header {
-      header {
-        @apply fixed top-0 right-0 left-0 z-50 flex h-14 items-center justify-between bg-white/5 px-6 py-3 backdrop-blur-xl backdrop-saturate-150 transition-all duration-300 hover:bg-white/15 hover:shadow-lg max-md:bg-white/10 max-md:px-4 max-md:py-2 max-md:backdrop-blur-xl max-md:backdrop-saturate-150 dark:bg-gray-900/90 dark:hover:bg-gray-800/95 dark:hover:from-gray-900 dark:hover:via-gray-800 dark:hover:to-gray-900 dark:hover:shadow-black/30 max-md:dark:bg-gray-900/95;
-      }
+    header {
+      @apply fixed top-0 right-0 left-0 z-50 flex h-14 items-center justify-between bg-white/5 px-6 py-3 backdrop-blur-xl backdrop-saturate-150 transition-all duration-300 hover:bg-white/15 hover:shadow-lg max-md:bg-white/10 max-md:px-4 max-md:py-2 max-md:backdrop-blur-xl max-md:backdrop-saturate-150 dark:bg-gray-900/90 dark:hover:bg-gray-800/95 dark:hover:from-gray-900 dark:hover:via-gray-800 dark:hover:to-gray-900 dark:hover:shadow-black/30 max-md:dark:bg-gray-900/95;
 
       .brand {
         @apply hover:text-aurora-sky inline-block flex-shrink-0 text-xl font-semibold tracking-tight text-slate-900 no-underline transition-all duration-200 hover:-translate-y-0.5 max-md:order-1 max-md:flex-1 max-md:text-lg dark:text-slate-100;
@@ -231,15 +208,58 @@
         }
       }
 
-      .mobile-menu-overlay {
-        @apply max-md:invisible max-md:fixed max-md:inset-0 max-md:z-60 max-md:bg-black/40 max-md:opacity-0 max-md:backdrop-blur-md max-md:transition-all max-md:duration-300 md:hidden;
+      #indicators {
+        @apply flex flex-row-reverse items-center max-md:order-2 max-md:shrink-0;
 
-        &.mobile-menu-open {
-          @apply max-md:visible max-md:opacity-100;
+        & span[data-indicator] {
+          @apply relative inline-flex h-10 w-10 cursor-pointer items-center justify-center rounded-xl text-transparent transition-all duration-200 hover:bg-white/10 active:scale-95 active:bg-white/15 max-md:h-10 max-md:w-10 dark:hover:bg-slate-800/20 dark:active:bg-slate-700/30;
 
-          & .mobile-nav {
-            @apply max-md:translate-x-0;
+          &::before {
+            @apply absolute inset-0 bg-size-[22px] bg-center bg-no-repeat opacity-70 brightness-[0.3] contrast-100 transition-opacity duration-200 content-['\00A0'];
           }
+
+          &:hover::before {
+            @apply opacity-100;
+          }
+
+          .dark &::before {
+            @apply brightness-100 invert;
+          }
+
+          &[data-indicator="poll-status"] {
+            &[data-style="active"]::before {
+              @apply bg-[url('@assets/icons/refresh.svg')];
+            }
+
+            &[data-style="inactive"]::before {
+              @apply bg-[url('@assets/icons/pause.svg')];
+            }
+          }
+
+          &[data-indicator="uci-changes"]::before {
+            @apply bg-[url('@assets/icons/setting.svg')];
+          }
+
+          &[data-style="active"] {
+            &::before {
+              @apply opacity-90;
+            }
+            &:hover::before {
+              @apply opacity-100;
+            }
+          }
+        }
+      }
+    }
+
+    .mobile-menu-overlay {
+      @apply max-md:invisible max-md:fixed max-md:inset-0 max-md:z-60 max-md:bg-black/40 max-md:opacity-0 max-md:backdrop-blur-md max-md:transition-all max-md:duration-300 md:hidden;
+
+      &.mobile-menu-open {
+        @apply max-md:visible max-md:opacity-100;
+
+        & .mobile-nav {
+          @apply max-md:translate-x-0;
         }
       }
 
@@ -286,108 +306,61 @@
           }
         }
       }
+    }
 
-      #indicators {
-        @apply flex flex-row-reverse items-center max-md:order-2 max-md:shrink-0;
+    #maincontent {
+      @apply mx-auto min-h-screen w-11/12 !max-w-6xl px-4 pt-16 max-md:w-full max-md:px-0 max-md:pt-14;
 
-        & span[data-indicator] {
-          @apply relative inline-flex h-10 w-10 cursor-pointer items-center justify-center rounded-xl text-transparent transition-all duration-200 hover:bg-white/10 active:scale-95 active:bg-white/15 max-md:h-10 max-md:w-10 dark:hover:bg-slate-800/20 dark:active:bg-slate-700/30;
+      #view {
+        @apply mb-6 w-full rounded-2xl border border-slate-400/20 bg-gradient-to-br from-white/95 via-white/90 to-white/85 p-6 shadow-xl backdrop-blur-xl backdrop-saturate-150 transition-all duration-300 empty:hidden hover:border-slate-400/30 hover:shadow-2xl hover:shadow-slate-400/30 max-md:mx-0 max-md:mb-2 max-md:rounded-none max-md:border-0 max-md:bg-white/10 max-md:bg-none max-md:p-0 max-md:shadow-none dark:border-gray-600/30 dark:from-gray-900/95 dark:via-gray-800/90 dark:to-gray-900/85 dark:shadow-black/50 dark:backdrop-blur-xl dark:backdrop-saturate-150 dark:hover:border-gray-500/40 dark:hover:shadow-black/60 max-md:dark:bg-gray-900/95 max-md:dark:bg-none;
 
-          &::before {
-            @apply absolute inset-0 bg-size-[22px] bg-center bg-no-repeat opacity-70 brightness-[0.3] contrast-100 transition-opacity duration-200 content-[''];
-          }
+        .cbi-map-descr {
+          @apply mb-6 text-sm leading-relaxed text-slate-600 max-md:mx-2 max-md:mb-3 max-md:text-sm dark:text-slate-400;
+        }
 
-          &:hover::before {
-            @apply opacity-100;
-          }
+        .cbi-title-section {
+          @apply mb-6 leading-relaxed max-md:mx-2 max-md:mb-3;
+        }
 
-          .dark &::before {
-            @apply brightness-100 invert;
-          }
-
-          &[data-indicator="poll-status"] {
-            &[data-style="active"]::before {
-              @apply bg-[url('@assets/icons/refresh.svg')];
-            }
-
-            &[data-style="inactive"]::before {
-              @apply bg-[url('@assets/icons/pause.svg')];
-            }
-          }
-
-          &[data-indicator="uci-changes"]::before {
-            @apply bg-[url('@assets/icons/setting.svg')];
-          }
-
-          &[data-style="active"] {
-            &::before {
-              @apply opacity-90;
-            }
-            &:hover::before {
-              @apply opacity-100;
-            }
-          }
+        #syslog {
+          @apply bg-aurora-night-slate focus:border-aurora-teal focus:ring-aurora-teal/20 dark:focus:border-aurora-teal-400 dark:focus:ring-aurora-teal-400/30 max-h-screen min-h-96 w-full resize-y rounded-xl border border-slate-400/25 p-6 font-sans text-xs leading-snug text-slate-200 transition-all duration-200 focus:shadow-lg focus:ring-2 focus:outline-none dark:border-gray-600/40 dark:bg-gray-900 dark:text-gray-100 dark:shadow-black/50;
         }
       }
     }
 
-    @layer content {
-      #maincontent {
-        @apply mx-auto min-h-screen w-11/12 !max-w-6xl px-4 pt-16 max-md:w-full max-md:px-0 max-md:pt-14;
+    footer {
+      @apply mt-auto flex flex-wrap items-center justify-center border-t border-slate-200 py-2 text-xs text-slate-500 dark:border-slate-700 dark:text-slate-400;
 
-        #view {
-          @apply mb-6 w-full rounded-2xl border border-slate-400/20 bg-gradient-to-br from-white/95 via-white/90 to-white/85 p-6 shadow-xl backdrop-blur-xl backdrop-saturate-150 transition-all duration-300 empty:hidden hover:border-slate-400/30 hover:shadow-2xl hover:shadow-slate-400/30 max-md:mx-0 max-md:mb-2 max-md:rounded-none max-md:border-0 max-md:bg-white/10 max-md:bg-none max-md:p-0 max-md:shadow-none dark:border-gray-600/30 dark:from-gray-900/95 dark:via-gray-800/90 dark:to-gray-900/85 dark:shadow-black/50 dark:backdrop-blur-xl dark:backdrop-saturate-150 dark:hover:border-gray-500/40 dark:hover:shadow-black/60 max-md:dark:bg-gray-900/95 max-md:dark:bg-none;
-
-          .cbi-map-descr {
-            @apply mb-6 text-sm leading-relaxed text-slate-600 max-md:mx-2 max-md:mb-3 max-md:text-sm dark:text-slate-400;
-          }
-
-          .cbi-title-section {
-            @apply mb-6 leading-relaxed max-md:mx-2 max-md:mb-3;
-          }
-
-          #syslog {
-            @apply bg-aurora-night-slate focus:border-aurora-teal focus:ring-aurora-teal/20 dark:focus:border-aurora-teal-400 dark:focus:ring-aurora-teal-400/30 max-h-screen min-h-96 w-full resize-y rounded-xl border border-slate-400/25 p-6 font-sans text-xs leading-snug text-slate-200 transition-all duration-200 focus:shadow-lg focus:ring-2 focus:outline-none dark:border-gray-600/40 dark:bg-gray-900 dark:text-gray-100 dark:shadow-black/50;
-          }
-        }
+      & span {
+        @apply inline-block text-center;
       }
-    }
 
-    @layer footer {
-      footer {
-        @apply mt-auto flex flex-wrap items-center justify-center border-t border-slate-200 py-2 text-xs text-slate-500 dark:border-slate-700 dark:text-slate-400;
+      & a {
+        @apply text-aurora-sky hover:text-aurora-sky-600 no-underline;
+      }
 
-        & span {
-          @apply inline-block text-center;
+      & .breadcrumb {
+        @apply m-0 mb-4 flex rounded border border-slate-200 bg-slate-50 px-3 py-2 dark:border-slate-700 dark:bg-slate-800;
+
+        & li {
+          @apply list-none;
+
+          &:not(:last-child)::after {
+            @apply px-2 text-slate-400 content-['\007C'];
+          }
+
+          &.active a {
+            @apply text-slate-600 dark:text-slate-300;
+          }
         }
 
         & a {
-          @apply text-aurora-sky hover:text-aurora-sky-600 no-underline;
+          @apply text-aurora-sky hover:text-aurora-sky-600;
         }
+      }
 
-        & .breadcrumb {
-          @apply m-0 mb-4 flex rounded border border-slate-200 bg-slate-50 px-3 py-2 dark:border-slate-700 dark:bg-slate-800;
-
-          & li {
-            @apply list-none;
-
-            &:not(:last-child)::after {
-              @apply px-2 text-slate-400 content-['|'];
-            }
-
-            &.active a {
-              @apply text-slate-600 dark:text-slate-300;
-            }
-          }
-
-          & a {
-            @apply text-aurora-sky hover:text-aurora-sky-600;
-          }
-        }
-
-        & ul.breadcrumb {
-          @apply ml-auto;
-        }
+      & ul.breadcrumb {
+        @apply ml-auto;
       }
     }
   }
@@ -409,7 +382,7 @@
       @apply text-aurora-sky focus:ring-aurora-sky/20 checked:border-aurora-sky checked:bg-aurora-sky dark:checked:border-aurora-sky-500 dark:checked:bg-aurora-sky-500 relative h-4 w-4 cursor-pointer appearance-none rounded-full border border-slate-300/70 bg-white shadow-sm transition-all duration-200 hover:border-slate-400/60 focus:ring-2 focus:ring-offset-1 focus:outline-none dark:border-slate-600/60 dark:bg-slate-800 dark:hover:border-slate-500/60 dark:focus:ring-offset-slate-900;
 
       &:checked::after {
-        @apply pointer-events-none absolute top-1/2 left-1/2 block h-[0.4rem] w-[0.4rem] -translate-x-1/2 -translate-y-1/2 rounded-full bg-white content-[''];
+        @apply pointer-events-none absolute top-1/2 left-1/2 block -translate-x-1/2 -translate-y-1/2 text-white content-['\2022'];
       }
     }
 
@@ -452,7 +425,7 @@
       @apply text-aurora-sky focus:ring-aurora-sky/20 checked:border-aurora-sky checked:bg-aurora-sky dark:checked:border-aurora-sky-500 dark:checked:bg-aurora-sky-500 relative h-4 w-4 cursor-pointer appearance-none rounded border border-slate-300/70 bg-white shadow-sm transition-all duration-200 hover:border-slate-400/60 focus:ring-2 focus:ring-offset-1 focus:outline-none dark:border-slate-600/60 dark:bg-slate-800 dark:hover:border-slate-500/60 dark:focus:ring-offset-slate-900;
 
       &:checked::after {
-        @apply pointer-events-none absolute top-1/2 left-1/2 block h-[0.6rem] w-[0.35rem] -translate-x-1/2 -translate-y-1/2 -rotate-315 border-r border-b border-white content-[''];
+        @apply pointer-events-none absolute top-1/2 left-1/2 block -translate-x-1/2 -translate-y-1/2 text-white content-['\2713'];
       }
     }
 
@@ -635,101 +608,90 @@
 
       & > ul {
         @apply m-0 list-none p-0;
-      }
-
-      & > ul > li {
-        @apply flex items-center gap-2;
-        & > img {
-          @apply h-4 w-4 flex-none align-middle;
-        }
-        & > span {
-          &.zonebadge {
-            &[style*="--zone-color-rgb:238, 238, 238"] {
-              @apply dark:!bg-slate-700/60;
-            }
-          }
-
-          @apply truncate;
-        }
-      }
-
-      & > ul.preview,
-      & > ul:not(.dropdown) {
-        @apply flex items-center;
-
         & > li {
-          @apply m-0 hidden list-none p-0;
-        }
-
-        & > li[selected] {
-          @apply flex items-center gap-2 text-sm font-medium;
-          & > img {
-            @apply mr-1 h-4 w-4 flex-none align-middle;
+          @apply m-0 flex list-none items-center gap-2 p-0 text-sm font-medium;
+          & > label {
+            @apply flex items-center gap-2;
           }
-          & > span {
+          & img {
+            @apply h-5 w-5 flex-none align-middle;
+          }
+          & span {
             @apply truncate;
           }
           & .hide-open {
-            @apply block;
-          }
-          & .hide-close {
             @apply hidden;
           }
         }
-      }
-
-      & > ul.dropdown {
-        @apply invisible absolute left-0 z-50 mt-1 min-w-[140px] overflow-y-auto rounded-lg border border-slate-200/60 bg-white/95 py-1 shadow-xl backdrop-blur-sm dark:border-slate-600/40 dark:bg-slate-800/95;
-
-        & > li {
-          @apply hover:bg-aurora-sky/8 dark:hover:bg-aurora-sky/15 w-full cursor-pointer rounded-lg px-3 py-1.5 text-sm font-medium text-slate-600 dark:text-slate-300;
+        &:not(.dropdown) {
+          @apply flex items-center gap-2;
+          & > li {
+            @apply hidden;
+          }
+          & > li[selected] {
+            @apply flex;
+            & .hide-open {
+              @apply block;
+            }
+            & .hide-close {
+              @apply hidden;
+            }
+            & > form {
+              @apply hidden;
+            }
+          }
         }
+        &.dropdown {
+          @apply invisible absolute left-0 z-50 mt-1 min-w-[140px] overflow-y-auto rounded-lg border border-slate-200/60 bg-white/95 py-1 shadow-xl backdrop-blur-sm dark:border-slate-600/40 dark:bg-slate-800/95;
 
-        & > li[selected] {
-          @apply bg-aurora-sky/20 text-aurora-sky-800 dark:bg-aurora-sky/25 dark:text-aurora-sky-200;
+          & > li {
+            @apply hover:bg-aurora-sky/8 dark:hover:bg-aurora-sky/15 w-full cursor-pointer rounded-lg px-3 py-1.5 text-sm font-medium text-slate-600 dark:text-slate-300;
+            & .hide-close {
+              @apply flex flex-col;
+            }
+          }
+
+          & > li[selected] {
+            @apply bg-aurora-sky/20 text-aurora-sky-800 dark:bg-aurora-sky/25 dark:text-aurora-sky-200;
+          }
         }
-      }
-
-      & > .more {
-        @apply hidden;
-      }
-      &[multiple] > .more {
-        @apply block text-sm font-medium text-slate-600 dark:text-slate-400;
-      }
-
-      & > .open {
-        @apply cursor-pointer border-l border-slate-200 px-2 text-sm text-slate-400 hover:text-slate-600 dark:border-slate-600 dark:text-slate-500 dark:hover:text-slate-300;
       }
 
       &[open] > ul.dropdown {
         @apply visible;
       }
-      &[open] > ul:not(.dropdown) > li[selected] {
-        & .hide-open {
-          @apply hidden;
-        }
-        & .hide-close {
-          @apply block;
-        }
+
+      & > .more {
+        @apply hidden;
+      }
+
+      & > .open {
+        @apply cursor-pointer border-l border-slate-200 px-2 text-sm text-slate-400 hover:text-slate-600 dark:border-slate-600 dark:text-slate-500 dark:hover:text-slate-300;
       }
     }
   }
 
   @layer progress {
     .cbi-progressbar {
-      @apply h-3 w-full overflow-hidden rounded-full bg-slate-300 max-md:h-2.5 dark:bg-slate-700;
-    }
+      @apply relative h-3 w-full cursor-help overflow-hidden rounded-full bg-slate-300 before:absolute before:top-1/2 before:left-1/2 before:z-50 before:-translate-x-1/2 before:-translate-y-1/2 before:rounded-lg before:text-xs/normal before:whitespace-nowrap before:text-slate-900 before:shadow-lg before:content-[attr(title)] max-md:h-2.5 max-md:before:text-[10px] max-md:before:leading-tight dark:bg-slate-700 before:dark:border-slate-600 before:dark:bg-slate-700 before:dark:text-slate-100 dark:before:text-slate-100 before:dark:shadow-black/40;
 
-    .cbi-progressbar > div {
-      @apply from-aurora-sky to-aurora-teal h-full bg-gradient-to-r transition-all duration-300;
-    }
-
-    .cbi-progressbar {
-      @apply relative cursor-help before:absolute before:top-1/2 before:left-1/2 before:z-50 before:-translate-x-1/2 before:-translate-y-1/2 before:rounded-lg before:text-xs/normal before:whitespace-nowrap before:text-slate-900 before:shadow-lg before:content-[attr(title)] max-md:before:text-[10px] max-md:before:leading-tight before:dark:border-slate-600 before:dark:bg-slate-700 before:dark:text-slate-100 dark:before:text-slate-100 before:dark:shadow-black/40;
+      & > div {
+        @apply from-aurora-sky to-aurora-teal h-full bg-gradient-to-r transition-all duration-300;
+      }
     }
   }
 
   @layer badge {
+    .zonebadge {
+      @apply rounded-sm transition-all duration-200 max-md:rounded-sm;
+
+      .cbi-dropdown & {
+        &[style*="--zone-color-rgb:238, 238, 238"] {
+          @apply dark:!bg-slate-700/60;
+        }
+      }
+    }
+
     .ifacebadge {
       @apply inline-flex cursor-default items-center gap-2 rounded-lg border border-slate-200/60 bg-white/95 px-3 py-2 text-sm font-normal text-slate-700 shadow-sm transition-all duration-200 hover:border-slate-300/70 hover:bg-white hover:shadow-md max-md:gap-1.5 max-md:px-2.5 max-md:py-1.5 max-md:text-xs dark:border-slate-600/40 dark:bg-slate-800/95 dark:text-slate-300 dark:shadow-black/10 dark:hover:border-slate-500/50 dark:hover:bg-slate-800 dark:hover:shadow-black/20;
 
@@ -762,19 +724,19 @@
       }
 
       &:empty::before {
-        @apply text-slate-400 content-['—'] dark:text-slate-500;
-      }
-    }
-
-    .cbi-dropdown .ifacebadge {
-      @apply border-slate-200/50 bg-slate-100/80 px-3 py-2 text-sm text-slate-700 shadow-sm hover:border-slate-300/60 hover:bg-slate-200/90 dark:border-slate-600/30 dark:bg-slate-700/50 dark:text-slate-300 dark:hover:border-slate-500/40 dark:hover:bg-slate-600/60;
-
-      & img {
-        @apply mr-2 h-4 w-4 max-md:mr-1.5;
+        @apply text-slate-400 content-['\2014'] dark:text-slate-500;
       }
 
-      & em {
-        @apply text-slate-400 italic dark:text-slate-500;
+      .cbi-dropdown & {
+        @apply border-slate-200/50 bg-slate-100/80 px-3 py-2 text-sm text-slate-700 shadow-sm hover:border-slate-300/60 hover:bg-slate-200/90 dark:border-slate-600/30 dark:bg-slate-700/50 dark:text-slate-300 dark:hover:border-slate-500/40 dark:hover:bg-slate-600/60;
+
+        & img {
+          @apply mr-2 h-4 w-4 max-md:mr-1.5;
+        }
+
+        & em {
+          @apply text-slate-400 italic dark:text-slate-500;
+        }
       }
     }
   }
@@ -867,10 +829,6 @@
           @apply font-semibold tracking-wide;
         }
 
-        & .zonebadge {
-          @apply rounded-sm transition-all duration-200 max-md:rounded-sm;
-        }
-
         &[style*="background-color: rgb(238, 238, 238)"] {
           @apply dark:!bg-slate-700/60;
         }
@@ -954,44 +912,45 @@
         & .button-row {
           @apply flex flex-shrink-0 justify-end gap-3 border-t border-slate-200/30 p-4 max-md:gap-2 max-md:p-3 md:flex-row md:gap-3 dark:border-slate-700/20;
         }
-      }
-    }
 
-    .modal.login {
-      @apply mx-auto w-full max-w-sm rounded-xl border border-slate-200 bg-white shadow-lg max-md:mx-4 max-md:w-11/12 dark:border-slate-700 dark:bg-slate-800;
+        &.login {
+          @apply mx-auto w-full max-w-sm rounded-xl border border-slate-200 bg-white shadow-lg max-md:mx-4 max-md:w-11/12 dark:border-slate-700 dark:bg-slate-800;
 
-      & > h4 {
-        @apply px-6 pt-8 pb-6 text-center text-lg font-semibold text-slate-900 max-md:pt-6 max-md:pb-4 max-md:text-base dark:text-slate-100;
-      }
-      & .cbi-map {
-        @apply px-6 pb-2 max-md:px-4;
-
-        & .cbi-section {
-          @apply space-y-4 max-md:space-y-3;
-
-          & .cbi-section-node {
-            @apply space-y-4 max-md:space-y-3;
+          & > h4 {
+            @apply px-6 pt-8 pb-6 text-center text-lg font-semibold text-slate-900 max-md:pt-6 max-md:pb-4 max-md:text-base dark:text-slate-100;
           }
 
-          & .cbi-value {
-            @apply space-y-1;
+          & .cbi-map {
+            @apply px-6 pb-2 max-md:px-4;
 
-            & .cbi-value-title {
-              @apply text-sm font-medium text-slate-700 max-md:text-xs dark:text-slate-300;
-            }
+            & .cbi-section {
+              @apply space-y-4 max-md:space-y-3;
 
-            & .cbi-value-field {
-              & input[type="text"],
-              & input[type="password"] {
-                @apply focus:border-aurora-sky focus:ring-aurora-sky/20 dark:focus:border-aurora-sky-400 dark:focus:ring-aurora-sky-400/20 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm text-slate-900 placeholder-slate-500 focus:ring-2 focus:outline-none max-md:text-sm dark:border-slate-600 dark:bg-slate-700 dark:text-slate-100 dark:placeholder-slate-400;
+              & .cbi-section-node {
+                @apply space-y-4 max-md:space-y-3;
+              }
+
+              & .cbi-value {
+                @apply space-y-1;
+
+                & .cbi-value-title {
+                  @apply text-sm font-medium text-slate-700 max-md:text-xs dark:text-slate-300;
+                }
+
+                & .cbi-value-field {
+                  & input[type="text"],
+                  & input[type="password"] {
+                    @apply focus:border-aurora-sky focus:ring-aurora-sky/20 dark:focus:border-aurora-sky-400 dark:focus:ring-aurora-sky-400/20 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm text-slate-900 placeholder-slate-500 focus:ring-2 focus:outline-none max-md:text-sm dark:border-slate-600 dark:bg-slate-700 dark:text-slate-100 dark:placeholder-slate-400;
+                  }
+                }
               }
             }
           }
-        }
-      }
 
-      & .btn.cbi-button-positive {
-        @apply bg-aurora-sky hover:bg-aurora-sky-600 focus:ring-aurora-sky/20 mb-6 rounded-lg px-4 py-2 text-sm font-medium text-white focus:ring-2 focus:ring-offset-2 focus:outline-none max-md:mb-4 max-md:text-sm dark:focus:ring-offset-slate-800;
+          & .btn.cbi-button-positive {
+            @apply bg-aurora-sky hover:bg-aurora-sky-600 focus:ring-aurora-sky/20 mb-6 rounded-lg px-4 py-2 text-sm font-medium text-white focus:ring-2 focus:ring-offset-2 focus:outline-none max-md:mb-4 max-md:text-sm dark:focus:ring-offset-slate-800;
+          }
+        }
       }
     }
   }
@@ -1018,7 +977,7 @@
           @apply cursor-pointer transition-colors duration-200 select-none hover:bg-gray-50 dark:hover:bg-gray-700/70;
 
           &:hover::after {
-            @apply ml-2 text-xs font-normal text-gray-400 content-['↕'] dark:text-gray-400;
+            @apply ml-2 text-xs font-normal text-gray-400 content-['\2195'] dark:text-gray-400;
           }
         }
       }
@@ -1089,7 +1048,7 @@
           @apply max-md:relative;
 
           &::before {
-            @apply max-md:mb-1 max-md:block max-md:text-sm max-md:font-medium max-md:tracking-wide max-md:text-gray-500 max-md:uppercase max-md:content-[attr(data-title)':'] dark:max-md:text-gray-400;
+            @apply max-md:mb-1 max-md:block max-md:text-sm max-md:font-medium max-md:tracking-wide max-md:text-gray-500 max-md:uppercase max-md:content-[attr(data-title)'\003A'] dark:max-md:text-gray-400;
           }
         }
 
@@ -1115,7 +1074,7 @@
       }
 
       &:empty::before {
-        @apply block py-12 text-center text-gray-400 content-['暂无数据'] max-md:py-8 max-md:text-xs dark:text-gray-400;
+        @apply block py-12 text-center text-gray-400 content-['\2014'] max-md:py-8 max-md:text-xs dark:text-gray-400;
       }
 
       & tr:not(:last-child) {
@@ -1199,8 +1158,7 @@
         }
 
         &::after {
-          @apply pointer-events-auto absolute top-3 right-3 inline-flex h-6 w-6 cursor-pointer items-center justify-center rounded-md border border-slate-200/50 bg-slate-100/80 text-sm font-medium text-slate-600 transition-all duration-200 hover:border-red-200 hover:bg-red-50 hover:text-red-600 max-md:top-2.5 max-md:right-2.5 max-md:h-5 max-md:w-5 max-md:text-xs dark:border-slate-600/50 dark:bg-slate-700/50 dark:text-slate-400 dark:hover:border-red-700/50 dark:hover:bg-red-900/20 dark:hover:text-red-400;
-          content: "×";
+          @apply pointer-events-auto absolute top-3 right-3 inline-flex h-6 w-6 cursor-pointer items-center justify-center rounded-md border border-slate-200/50 bg-slate-100/80 text-sm font-medium text-slate-600 transition-all duration-200 content-['\00D7'] hover:border-red-200 hover:bg-red-50 hover:text-red-600 max-md:top-2.5 max-md:right-2.5 max-md:h-5 max-md:w-5 max-md:text-xs dark:border-slate-600/50 dark:bg-slate-700/50 dark:text-slate-400 dark:hover:border-red-700/50 dark:hover:bg-red-900/20 dark:hover:text-red-400;
         }
 
         & > span {
@@ -1221,51 +1179,6 @@
 
         & .cbi-input-text {
           @apply focus:border-aurora-sky focus:ring-aurora-sky/20 dark:focus:border-aurora-sky-400 dark:focus:ring-aurora-sky-400/20 min-w-0 flex-1 rounded-l-lg border-0 bg-transparent px-4 py-3 text-sm text-slate-900 placeholder-slate-400 transition-all duration-200 focus:ring-0 focus:outline-none max-md:px-3 max-md:py-2.5 max-md:text-sm dark:text-slate-100 dark:placeholder-slate-500;
-        }
-
-        & .cbi-dropdown {
-          @apply min-w-0 flex-1 rounded-lg border-0 bg-transparent px-0 py-0 shadow-none;
-
-          & > ul:not(.dropdown) {
-            @apply px-4 py-3 max-md:px-3 max-md:py-2.5;
-
-            & > li[selected] {
-              @apply truncate text-sm text-slate-600 max-md:text-sm dark:text-slate-400;
-            }
-          }
-
-          & > ul.dropdown {
-            @apply top-full left-0 z-50 mt-2 min-w-full rounded-lg border border-slate-300/60 bg-white/95 py-2 shadow-xl backdrop-blur-sm dark:border-slate-600/40 dark:bg-slate-800/95;
-
-            & > li {
-              @apply hover:bg-aurora-sky/8 dark:hover:bg-aurora-sky/15 px-4 py-2.5 text-sm max-md:px-3 max-md:py-2;
-
-              & strong {
-                @apply font-medium text-slate-800 dark:text-slate-200;
-              }
-            }
-
-            & > li[selected] {
-              @apply bg-aurora-sky/15 text-aurora-sky-800 dark:bg-aurora-sky/20 dark:text-aurora-sky-200;
-            }
-
-            & > li:has(.create-item-input) {
-              @apply p-0;
-
-              & .create-item-input {
-                @apply w-full border-0 bg-transparent px-4 py-2.5 text-sm placeholder-slate-400 focus:outline-none max-md:px-3 max-md:py-2 dark:placeholder-slate-500;
-              }
-            }
-          }
-
-          & .more,
-          & .open {
-            @apply px-3 py-3 text-slate-400 hover:text-slate-600 max-md:px-2.5 max-md:py-2.5 max-md:text-sm dark:text-slate-500 dark:hover:text-slate-300;
-          }
-
-          & .open {
-            @apply border-l border-slate-200/60 dark:border-slate-600/50;
-          }
         }
 
         & .cbi-button-add {
@@ -1337,5 +1250,26 @@
     [id^="container."] {
       @apply relative;
     }
+  }
+}
+
+@layer utilities {
+  .left {
+    @apply md:text-left;
+  }
+  .right {
+    @apply md:text-right;
+  }
+  .top {
+    @apply md:align-top;
+  }
+  .bottom {
+    @apply md:align-bottom;
+  }
+  .center {
+    @apply md:text-center;
+  }
+  .middle {
+    @apply md:align-middle;
   }
 }
