@@ -173,7 +173,7 @@
       @apply fixed top-0 right-0 left-0 z-50 flex h-14 items-center justify-between bg-white/5 px-6 py-3 backdrop-blur-xl backdrop-saturate-150 transition-all duration-300 hover:bg-white/15 hover:shadow-lg max-md:bg-white/10 max-md:px-4 max-md:py-2 max-md:backdrop-blur-xl max-md:backdrop-saturate-150 dark:bg-gray-900/90 dark:hover:bg-gray-800/95 dark:hover:from-gray-900 dark:hover:via-gray-800 dark:hover:to-gray-900 dark:hover:shadow-black/30 max-md:dark:bg-gray-900/95;
 
       .brand {
-        @apply hover:text-aurora-sky inline-block flex-shrink-0 text-xl font-semibold tracking-tight text-slate-900 no-underline transition-all duration-200 hover:-translate-y-0.5 max-md:order-1 max-md:flex-1 max-md:text-lg dark:text-slate-100;
+        @apply hover:text-aurora-sky dark:hover:text-aurora-teal-400 inline-block flex-shrink-0 text-xl font-semibold tracking-tight text-slate-900 no-underline transition-all duration-200 hover:-translate-y-0.5 max-md:order-1 max-md:flex-1 max-md:text-lg dark:text-slate-100;
       }
 
       .nav {
@@ -326,41 +326,39 @@
           @apply bg-aurora-night-slate focus:border-aurora-teal focus:ring-aurora-teal/20 dark:focus:border-aurora-teal-400 dark:focus:ring-aurora-teal-400/30 max-h-screen min-h-96 w-full resize-y rounded-xl border border-slate-400/25 p-6 font-sans text-xs leading-snug text-slate-200 transition-all duration-200 focus:shadow-lg focus:ring-2 focus:outline-none dark:border-gray-600/40 dark:bg-gray-900 dark:text-gray-100 dark:shadow-black/50;
         }
       }
+
+      .control-group,
+      .cbi-page-actions > div,
+      .cbi-section-actions > div {
+        @apply flex flex-row flex-nowrap items-center gap-2 max-md:gap-1;
+      }
+
+      .cbi-page-actions {
+        @apply mt-6 flex flex-wrap items-center justify-end gap-3 border-t border-slate-200/50 pt-4 max-md:mx-2 max-md:mt-4 max-md:gap-2 max-md:pt-3 dark:border-slate-700/30;
+      }
     }
 
     footer {
-      @apply mt-auto flex flex-wrap items-center justify-center border-t border-slate-200 py-2 text-xs text-slate-500 dark:border-slate-700 dark:text-slate-400;
+      @apply mt-auto flex flex-wrap items-center justify-center gap-2 border-t border-slate-200 py-2 text-xs text-slate-500 dark:border-slate-700 dark:text-slate-400;
+
+      & a {
+        @apply text-aurora-sky hover:text-aurora-sky-600 dark:text-aurora-teal-400 dark:hover:text-aurora-teal-300 no-underline transition-all duration-150;
+      }
 
       & span {
         @apply inline-block text-center;
       }
 
-      & a {
-        @apply text-aurora-sky hover:text-aurora-sky-600 no-underline;
-      }
-
       & .breadcrumb {
-        @apply m-0 mb-4 flex rounded border border-slate-200 bg-slate-50 px-3 py-2 dark:border-slate-700 dark:bg-slate-800;
+        @apply flex items-center gap-1 rounded-full bg-white/60 px-3 py-1.5 text-xs shadow-sm backdrop-blur-sm transition-all duration-200 hover:bg-white/80 hover:shadow-md dark:bg-slate-800/60 dark:hover:bg-slate-800/80;
 
         & li {
           @apply list-none;
 
-          &:not(:last-child)::after {
-            @apply px-2 text-slate-400 content-['\007C'];
-          }
-
           &.active a {
-            @apply text-slate-600 dark:text-slate-300;
+            @apply text-slate-500 dark:text-slate-400;
           }
         }
-
-        & a {
-          @apply text-aurora-sky hover:text-aurora-sky-600;
-        }
-      }
-
-      & ul.breadcrumb {
-        @apply ml-auto;
       }
     }
   }
@@ -379,7 +377,7 @@
 
   @layer radio {
     input[type="radio"] {
-      @apply text-aurora-sky focus:ring-aurora-sky/20 checked:border-aurora-sky checked:bg-aurora-sky dark:checked:border-aurora-sky-500 dark:checked:bg-aurora-sky-500 relative h-4 w-4 cursor-pointer appearance-none rounded-full border border-slate-300/70 bg-white shadow-sm transition-all duration-200 hover:border-slate-400/60 focus:ring-2 focus:ring-offset-1 focus:outline-none dark:border-slate-600/60 dark:bg-slate-800 dark:hover:border-slate-500/60 dark:focus:ring-offset-slate-900;
+      @apply text-aurora-sky focus:border-aurora-sky focus:ring-aurora-sky/20 dark:focus:border-aurora-teal-400 dark:focus:ring-aurora-teal-400/30 checked:border-aurora-sky checked:bg-aurora-sky dark:checked:border-aurora-teal-600 dark:checked:bg-aurora-teal-600 relative h-4 w-4 cursor-pointer appearance-none rounded-full border border-slate-300/70 bg-white shadow-sm transition-all duration-200 hover:border-slate-400/60 focus:ring-2 focus:outline-none dark:border-slate-600/60 dark:bg-slate-800 dark:hover:border-slate-500/60;
 
       &:checked::after {
         @apply pointer-events-none absolute top-1/2 left-1/2 block -translate-x-1/2 -translate-y-1/2 text-white content-['\2022'];
@@ -422,7 +420,7 @@
   @layer checkbox {
     input[type="checkbox"],
     .cbi-input-checkbox {
-      @apply text-aurora-sky focus:ring-aurora-sky/20 checked:border-aurora-sky checked:bg-aurora-sky dark:checked:border-aurora-sky-500 dark:checked:bg-aurora-sky-500 relative h-4 w-4 cursor-pointer appearance-none rounded border border-slate-300/70 bg-white shadow-sm transition-all duration-200 hover:border-slate-400/60 focus:ring-2 focus:ring-offset-1 focus:outline-none dark:border-slate-600/60 dark:bg-slate-800 dark:hover:border-slate-500/60 dark:focus:ring-offset-slate-900;
+      @apply text-aurora-sky focus:border-aurora-sky focus:ring-aurora-sky/20 dark:focus:border-aurora-teal-400 dark:focus:ring-aurora-teal-400/30 checked:border-aurora-sky checked:bg-aurora-sky dark:checked:border-aurora-teal-600 dark:checked:bg-aurora-teal-600 relative h-4 w-4 cursor-pointer appearance-none rounded border border-slate-300/70 bg-white shadow-sm transition-all duration-200 hover:border-slate-400/60 focus:ring-2 focus:outline-none dark:border-slate-600/60 dark:bg-slate-800 dark:hover:border-slate-500/60;
 
       &:checked::after {
         @apply pointer-events-none absolute top-1/2 left-1/2 block -translate-x-1/2 -translate-y-1/2 text-white content-['\2713'];
@@ -451,27 +449,26 @@
   @layer button {
     button,
     .btn,
-    .cbi-button,
-    .cbi-button-add,
-    .cbi-button-reload,
-    .cbi-button-edit,
-    .cbi-button-start {
-      @apply bg-aurora-sky hover:bg-aurora-sky-600 inline-flex cursor-pointer items-center justify-center gap-1.5 rounded-lg px-3 py-1.5 text-sm font-medium text-white antialiased shadow-sm transition-all duration-200 max-md:px-4 max-md:py-2.5 max-md:text-sm;
+    .cbi-button {
+      @apply bg-aurora-sky hover:bg-aurora-sky-600 dark:bg-aurora-teal-600 dark:hover:bg-aurora-teal-700 inline-flex cursor-pointer items-center justify-center gap-1.5 rounded-lg px-3 py-1.5 text-sm font-medium text-white antialiased shadow-sm transition-all duration-200 max-md:px-4 max-md:py-2.5 max-md:text-sm;
+      &[disabled] {
+        @apply cursor-not-allowed opacity-50 saturate-75 hover:cursor-not-allowed hover:opacity-50;
+      }
+      .td & {
+        @apply inline-flex w-auto flex-none whitespace-nowrap max-md:px-3 max-md:py-1.5 max-md:text-sm;
+      }
     }
 
-    .btn + .btn,
-    .cbi-button + .cbi-button,
     button + button,
     .btn + .cbi-button,
     .cbi-button + .btn,
-    .cbi-section-node .cbi-button,
     .cbi-section-node .btn {
       @apply ml-2 max-md:ml-1.5;
     }
 
     .cbi-button-positive,
     .cbi-button-apply {
-      @apply border-aurora-sky/40 bg-aurora-sky/8 text-aurora-sky-700 hover:border-aurora-sky/60 hover:bg-aurora-sky/12 hover:text-aurora-sky-800 dark:border-aurora-sky/50 dark:bg-aurora-sky/15 dark:text-aurora-sky-300 dark:hover:border-aurora-sky/70 dark:hover:bg-aurora-sky/20 dark:hover:text-aurora-sky-200 border font-medium antialiased shadow-none max-md:px-4 max-md:py-2.5 max-md:text-sm;
+      @apply border-aurora-sky/40 bg-aurora-sky/8 text-aurora-sky-700 hover:border-aurora-sky/60 hover:bg-aurora-sky/12 hover:text-aurora-sky-800 dark:border-aurora-teal-600/50 dark:bg-aurora-teal-600/15 dark:text-aurora-teal-400 dark:hover:border-aurora-teal-600/70 dark:hover:bg-aurora-teal-600/20 dark:hover:text-aurora-teal-300 border font-medium antialiased shadow-none max-md:px-4 max-md:py-2.5 max-md:text-sm;
     }
 
     .btn-secondary,
@@ -483,49 +480,6 @@
     .cbi-button-kill,
     .drag-handle {
       @apply border border-slate-300/60 bg-slate-50 font-medium text-slate-700 antialiased shadow-none hover:border-slate-400/60 hover:bg-slate-100 hover:text-slate-800 max-md:px-4 max-md:py-2.5 max-md:text-sm dark:border-gray-600/60 dark:bg-gray-800 dark:text-gray-100 dark:hover:border-gray-500/60 dark:hover:bg-gray-700 dark:hover:text-gray-50;
-    }
-
-    .pager {
-      @apply flex items-center justify-center gap-4 py-4 max-md:gap-2 max-md:py-3;
-    }
-
-    .pager .text {
-      @apply text-sm font-medium text-slate-600 max-md:text-xs dark:text-gray-300;
-    }
-
-    .pager .btn.cbi-button-neutral {
-      @apply border border-slate-300/60 bg-slate-100 font-medium text-slate-600 antialiased shadow-none hover:border-slate-400/60 hover:bg-slate-200 hover:text-slate-700 disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:border-slate-300/60 disabled:hover:bg-slate-100 disabled:hover:text-slate-600 max-md:px-4 max-md:py-2.5 max-md:text-sm dark:border-gray-600/60 dark:bg-gray-800 dark:text-gray-100 dark:hover:border-gray-500/60 dark:hover:bg-gray-700 dark:hover:text-gray-50 dark:disabled:hover:border-gray-600/60 dark:disabled:hover:bg-gray-800 dark:disabled:hover:text-gray-100;
-    }
-
-    .cbi-page-actions {
-      @apply mt-6 flex flex-wrap items-center justify-end gap-3 border-t border-slate-200/50 pt-4 max-md:mx-2 max-md:mt-4 max-md:gap-2 max-md:pt-3 dark:border-slate-700/30;
-    }
-
-    .cbi-section-actions div {
-      @apply flex flex-row flex-nowrap items-center gap-2 max-md:gap-1;
-    }
-
-    .td.cbi-section-actions {
-      @apply p-2 max-md:p-1;
-
-      & div {
-        @apply justify-start;
-      }
-
-      & .btn,
-      & .cbi-button {
-        @apply inline-flex w-auto flex-none whitespace-nowrap max-md:px-3 max-md:py-1.5 max-md:text-sm;
-      }
-    }
-
-    .control-group {
-      @apply flex flex-wrap items-center gap-3 max-md:gap-2;
-    }
-
-    button[disabled],
-    .btn[disabled],
-    .cbi-button[disabled] {
-      @apply cursor-not-allowed opacity-50 saturate-75 hover:cursor-not-allowed hover:opacity-50;
     }
   }
 
@@ -598,13 +552,13 @@
         }
 
         & a {
-          @apply focus-visible:ring-aurora-sky/30 mx-2 block rounded-lg px-4 py-3 font-medium text-slate-700 transition-all duration-150 ease-out hover:translate-x-0.5 hover:bg-slate-200/60 hover:font-semibold hover:text-slate-900 hover:ring-1 hover:ring-slate-300/60 hover:ring-inset focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-white focus-visible:outline-none dark:text-slate-200 dark:hover:bg-slate-700/70 dark:hover:text-white dark:hover:ring-slate-600/60 dark:focus-visible:ring-offset-slate-900;
+          @apply focus-visible:ring-aurora-sky/30 dark:focus-visible:ring-aurora-teal-400/30 mx-2 block rounded-lg px-4 py-3 font-medium text-slate-700 transition-all duration-150 ease-out hover:translate-x-0.5 hover:bg-slate-200/60 hover:font-semibold hover:text-slate-900 hover:ring-1 hover:ring-slate-300/60 hover:ring-inset focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-white focus-visible:outline-none dark:text-slate-200 dark:hover:bg-slate-700/70 dark:hover:text-white dark:hover:ring-slate-600/60 dark:focus-visible:ring-offset-slate-900;
         }
       }
     }
 
     .cbi-dropdown {
-      @apply relative inline-flex min-w-fit flex-shrink-0 items-center rounded-lg p-0 whitespace-nowrap shadow-sm;
+      @apply focus:border-aurora-sky focus:ring-aurora-sky/20 dark:focus:border-aurora-teal-400 dark:focus:ring-aurora-teal-400/30 relative inline-flex min-w-fit flex-shrink-0 items-center rounded-lg border border-slate-300/70 p-0 whitespace-nowrap shadow-sm transition-all duration-200 focus:ring-2 focus:outline-none dark:border-slate-600/60;
 
       & > ul {
         @apply m-0 list-none;
@@ -651,20 +605,23 @@
           @apply invisible absolute left-0 z-50 mt-1 w-fit min-w-full overflow-y-auto rounded-lg border border-slate-200/60 bg-white/95 py-1 shadow-xl backdrop-blur-sm dark:border-slate-600/40 dark:bg-slate-800/95;
 
           & > li {
-            @apply hover:bg-aurora-sky/8 dark:hover:bg-aurora-sky/15 w-full cursor-pointer rounded-lg px-3 py-1.5 text-sm font-medium text-slate-600 dark:text-slate-300;
+            @apply hover:bg-aurora-sky/8 dark:hover:bg-aurora-teal-600/15 w-full cursor-pointer rounded-lg px-3 py-1.5 text-sm font-medium text-slate-600 dark:text-slate-300;
             & .hide-close {
               @apply flex flex-col;
             }
           }
 
           & > li[selected] {
-            @apply bg-aurora-sky/20 text-aurora-sky-800 dark:bg-aurora-sky/25 dark:text-aurora-sky-200;
+            @apply bg-aurora-sky/20 text-aurora-sky-800 dark:bg-aurora-teal-600/25 dark:text-aurora-teal-200;
           }
         }
       }
 
-      &[open] > ul.dropdown {
-        @apply visible;
+      &[open] {
+        @apply border-aurora-sky ring-aurora-sky/20 dark:border-aurora-teal-400 dark:ring-aurora-teal-400/30 ring-2;
+        & > ul.dropdown {
+          @apply visible;
+        }
       }
 
       & > .more {
@@ -689,7 +646,7 @@
       @apply relative h-3 w-full cursor-help overflow-hidden rounded-full bg-slate-300 before:absolute before:top-1/2 before:left-1/2 before:z-50 before:-translate-x-1/2 before:-translate-y-1/2 before:rounded-lg before:text-xs/normal before:whitespace-nowrap before:text-slate-900 before:shadow-lg before:content-[attr(title)] max-md:h-2.5 max-md:before:text-[10px] max-md:before:leading-tight dark:bg-slate-700 before:dark:border-slate-600 before:dark:bg-slate-700 before:dark:text-slate-100 dark:before:text-slate-100 before:dark:shadow-black/40;
 
       & > div {
-        @apply from-aurora-sky to-aurora-teal h-full bg-gradient-to-r transition-all duration-300;
+        @apply from-aurora-sky to-aurora-teal dark:from-aurora-teal-600 dark:text-shadow-aurora-night-slate-800 h-full bg-gradient-to-r transition-all duration-300;
       }
     }
   }
@@ -835,7 +792,7 @@
         }
 
         &.active {
-          @apply border-aurora-sky bg-aurora-sky text-white;
+          @apply border-aurora-sky bg-aurora-sky dark:border-aurora-teal-600 dark:bg-aurora-teal-600 text-white;
         }
 
         & strong {
@@ -1061,15 +1018,15 @@
         }
 
         &.col-1 {
-          @apply w-20 max-w-24 max-md:w-full max-md:max-w-none;
+          @apply w-28 max-w-32 whitespace-normal max-md:w-full max-md:max-w-none;
         }
 
         &.col-2 {
-          @apply w-32 max-w-40 max-md:w-full max-md:max-w-none;
+          @apply w-36 max-w-40 whitespace-normal max-md:w-full max-md:max-w-none;
         }
 
         &.col-10 {
-          @apply w-auto max-w-none min-w-80 max-md:w-full max-md:max-w-none max-md:min-w-0;
+          @apply w-auto max-md:w-full max-md:max-w-none max-md:min-w-0;
         }
       }
     }
@@ -1191,21 +1148,21 @@
 
 @layer utilities {
   .left {
-    @apply md:text-left;
+    @apply md:!text-left;
   }
   .right {
-    @apply md:text-right;
+    @apply md:!text-right;
   }
   .top {
-    @apply md:align-top;
+    @apply md:!align-top;
   }
   .bottom {
-    @apply md:align-bottom;
+    @apply md:!align-bottom;
   }
   .center {
-    @apply md:text-center;
+    @apply md:!text-center;
   }
   .middle {
-    @apply md:align-middle;
+    @apply md:!align-middle;
   }
 }
