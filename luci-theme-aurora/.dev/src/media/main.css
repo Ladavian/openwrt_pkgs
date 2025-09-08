@@ -312,7 +312,7 @@
       @apply mx-auto min-h-screen w-11/12 !max-w-6xl px-4 pt-16 max-md:w-full max-md:px-0 max-md:pt-14;
 
       #view {
-        @apply mb-6 w-full rounded-2xl border border-slate-400/20 bg-gradient-to-br from-white/95 via-white/90 to-white/85 p-6 shadow-xl backdrop-blur-xl backdrop-saturate-150 transition-all duration-300 empty:hidden hover:border-slate-400/30 hover:shadow-2xl hover:shadow-slate-400/30 max-md:mx-0 max-md:mb-2 max-md:rounded-none max-md:border-0 max-md:bg-white/10 max-md:bg-none max-md:p-0 max-md:shadow-none dark:border-gray-600/30 dark:from-gray-900/95 dark:via-gray-800/90 dark:to-gray-900/85 dark:shadow-black/50 dark:backdrop-blur-xl dark:backdrop-saturate-150 dark:hover:border-gray-500/40 dark:hover:shadow-black/60 max-md:dark:bg-gray-900/95 max-md:dark:bg-none;
+        @apply mx-0 mb-2 w-full p-0 shadow-none transition-all duration-300 empty:hidden md:mb-6 md:rounded-2xl md:border md:border-slate-400/20 md:bg-gradient-to-br md:from-white/95 md:via-white/90 md:to-white/85 md:p-6 md:shadow-xl md:backdrop-blur-xl md:backdrop-saturate-150 md:hover:border-slate-400/30 md:hover:shadow-2xl md:hover:shadow-slate-400/30 md:dark:border-gray-600/30 md:dark:from-gray-900/95 md:dark:via-gray-800/90 md:dark:to-gray-900/85 md:dark:shadow-black/50 md:dark:hover:border-gray-500/40 md:dark:hover:shadow-black/60;
 
         .cbi-map-descr {
           @apply mb-6 text-sm leading-relaxed text-slate-600 max-md:mx-2 max-md:mb-3 max-md:text-sm dark:text-slate-400;
@@ -712,26 +712,34 @@
   }
 
   @layer tooltip {
+    .cbi-tooltip {
+      @apply absolute z-110 max-w-xs rounded bg-white px-2 py-1 text-xs whitespace-nowrap text-slate-900 shadow-lg transition-opacity duration-250 ease-in dark:bg-slate-900 dark:text-slate-100;
+      &.error {
+        @apply border border-red-200/40 bg-gradient-to-br from-red-50 via-red-100 to-red-50 text-red-900 shadow-red-500/10 dark:border-red-500/30 dark:from-red-900/40 dark:via-red-800/30 dark:to-red-900/40 dark:text-red-200 dark:shadow-red-400/10;
+      }
+      &.success {
+        @apply border border-emerald-200/40 bg-gradient-to-br from-emerald-50 via-emerald-100 to-emerald-50 text-emerald-900 shadow-emerald-500/10 dark:border-emerald-500/30 dark:from-emerald-900/40 dark:via-emerald-800/30 dark:to-emerald-900/40 dark:text-emerald-200 dark:shadow-emerald-400/10;
+      }
+      &.info {
+        @apply border border-blue-200/40 bg-gradient-to-br from-blue-50 via-blue-100 to-blue-50 text-blue-900 shadow-blue-500/10 dark:border-blue-500/30 dark:from-blue-900/40 dark:via-blue-800/30 dark:to-blue-900/40 dark:text-blue-200 dark:shadow-blue-400/10;
+      }
+      &.notice {
+        @apply border border-amber-200/40 bg-gradient-to-br from-amber-50 via-amber-100 to-amber-50 text-amber-900 shadow-amber-500/10 dark:border-amber-500/30 dark:from-amber-900/40 dark:via-amber-800/30 dark:to-amber-900/40 dark:text-amber-200 dark:shadow-amber-400/10;
+      }
+    }
+
     .cbi-tooltip-container {
       @apply relative cursor-help whitespace-nowrap;
 
       & .cbi-tooltip {
         @apply hidden;
 
-        &.left {
-          @apply right-0 left-auto w-40 transform-none;
-        }
-
-        & .nowrap {
-          @apply whitespace-nowrap;
-        }
-
         & strong {
           @apply font-semibold;
         }
       }
       &:hover .cbi-tooltip {
-        @apply absolute z-50 block max-w-xs rounded bg-white px-2 py-1 text-xs whitespace-nowrap text-slate-900 shadow-lg dark:bg-slate-900 dark:text-slate-100;
+        @apply block;
       }
     }
   }
@@ -753,15 +761,11 @@
       }
 
       & div[style*="display:grid"] {
-        @apply max-md:!mb-0 max-md:!grid max-md:grid-cols-2 max-md:justify-items-stretch max-md:gap-3;
+        @apply max-md:!grid-cols-2 max-md:gap-3;
       }
 
       & .network-status-table {
-        @apply flex flex-wrap justify-start gap-6 max-md:flex-col max-md:gap-4;
-
-        & .ifacebox {
-          @apply w-80 flex-none max-md:w-full;
-        }
+        @apply mb-3 flex flex-wrap justify-around max-md:flex-col max-md:gap-4;
       }
 
       & .cbi-section-create {
@@ -928,7 +932,7 @@
   @layer table {
     .table,
     table {
-      @apply w-full border-separate border-spacing-0 overflow-visible rounded-lg border border-gray-200 bg-gradient-to-br from-white/95 via-white/90 to-white/85 shadow-sm max-md:mx-0 max-md:block max-md:w-full max-md:overflow-visible max-md:rounded-none max-md:border-0 max-md:bg-transparent max-md:shadow-none dark:border-gray-600/30 dark:from-gray-900/95 dark:via-gray-800/90 dark:to-gray-900/85 dark:shadow-black/50;
+      @apply mb-3 w-full border-separate border-spacing-0 overflow-visible rounded-lg border border-gray-200 bg-gradient-to-br from-white/95 via-white/90 to-white/85 shadow-sm max-md:mx-0 max-md:block max-md:w-full max-md:overflow-visible max-md:rounded-none max-md:border-0 max-md:bg-transparent max-md:shadow-none dark:border-gray-600/30 dark:from-gray-900/95 dark:via-gray-800/90 dark:to-gray-900/85 dark:shadow-black/50;
       &[width="100%"] {
         @apply w-full;
       }
@@ -1012,7 +1016,7 @@
 
       & td,
       & .td {
-        @apply w-auto border-b border-gray-200 px-4 py-3 text-base break-words text-gray-700 max-md:w-1/2 max-md:flex-shrink-0 max-md:border-0 max-md:px-1 max-md:py-1 max-md:text-sm dark:border-gray-600/40 dark:text-gray-200;
+        @apply w-auto border-b border-gray-200 px-3 py-3 text-base break-words text-gray-700 max-md:w-1/2 max-md:flex-shrink-0 max-md:border-0 max-md:px-1 max-md:py-1 max-md:text-sm dark:border-gray-600/40 dark:text-gray-200;
 
         &:has(.cbi-progressbar) {
           @apply flex-1;
@@ -1176,5 +1180,8 @@
   }
   .middle {
     @apply md:!align-middle;
+  }
+  .nowrap:not(span) {
+    @apply md:whitespace-nowrap;
   }
 }
