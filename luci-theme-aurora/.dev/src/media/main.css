@@ -102,14 +102,14 @@
   }
 
   html {
-    @apply h-full font-sans;
+    @apply dark:from-aurora-night-slate dark:via-aurora-night-teal dark:to-aurora-night-emerald h-full bg-gradient-to-br from-slate-50 via-slate-100 to-slate-200 bg-fixed font-sans;
 
     * {
       @apply scrollbar-thin scrollbar-track-transparent scrollbar-thumb-slate-300/60 hover:scrollbar-thumb-slate-400/80 dark:scrollbar-thumb-slate-600/60 dark:hover:scrollbar-thumb-slate-500/80 m-0 box-border p-0;
     }
 
     body {
-      @apply dark:from-aurora-night-slate dark:via-aurora-night-teal dark:to-aurora-night-emerald relative min-h-screen overflow-auto bg-gradient-to-br from-slate-50 via-slate-100 to-slate-200 bg-fixed text-sm leading-relaxed font-normal text-slate-900 transition-all duration-300 before:pointer-events-none before:fixed before:inset-0 before:-z-10 before:content-['\00A0'] dark:bg-gradient-to-br dark:text-slate-100;
+      @apply relative min-h-full overflow-auto bg-transparent text-sm leading-relaxed font-normal text-slate-900 transition-all duration-300 dark:text-slate-100;
       &.modal-overlay-active {
         @apply overflow-hidden;
       }
@@ -151,11 +151,15 @@
       }
 
       p {
-        @apply mb-4 text-sm leading-relaxed text-slate-600 dark:text-slate-300;
+        @apply text-sm leading-relaxed text-slate-600 dark:text-slate-300;
       }
 
       small {
         @apply text-xs font-normal text-slate-500 dark:text-slate-400;
+      }
+
+      strong {
+        @apply font-semibold tracking-tight;
       }
 
       code {
@@ -164,10 +168,6 @@
 
       em {
         @apply font-medium text-slate-500 italic max-md:text-xs dark:text-slate-400;
-      }
-
-      p {
-        @apply mb-4 text-sm leading-relaxed text-slate-600 dark:text-slate-300;
       }
     }
   }
@@ -298,11 +298,6 @@
       #view {
         @apply mx-0 mb-2 w-full p-0 shadow-none transition-all duration-300 empty:hidden md:mb-6 md:rounded-4xl md:border md:border-slate-400/20 md:bg-gradient-to-br md:from-white/95 md:via-white/90 md:to-white/85 md:p-6 md:shadow-xl md:backdrop-blur-xl md:backdrop-saturate-150 md:hover:border-slate-400/30 md:hover:shadow-2xl md:hover:shadow-slate-400/30 md:dark:border-gray-600/30 md:dark:from-gray-900/95 md:dark:via-gray-800/90 md:dark:to-gray-900/85 md:dark:shadow-black/50 md:dark:hover:border-gray-500/40 md:dark:hover:shadow-black/60;
 
-        .cbi-map-descr,
-        .cbi-section-descr {
-          @apply mb-6 text-sm leading-relaxed text-slate-600 max-md:mx-2 max-md:mb-3 max-md:text-sm dark:text-slate-400;
-        }
-
         .cbi-title-section {
           @apply mb-6 leading-relaxed max-md:mx-2 max-md:mb-3;
         }
@@ -326,6 +321,10 @@
         #syslog {
           @apply bg-aurora-night-slate focus:border-aurora-teal focus:ring-aurora-teal/20 dark:focus:border-aurora-teal-400 dark:focus:ring-aurora-teal-400/30 max-h-screen min-h-96 w-full resize-y rounded-3xl border border-slate-400/25 p-6 font-sans text-xs leading-snug text-slate-200 transition-all duration-200 focus:shadow-lg focus:ring-2 focus:outline-none dark:border-gray-600/40 dark:bg-gray-900 dark:text-gray-100 dark:shadow-black/50;
         }
+
+        & div[style*="background:#fff"] {
+          @apply dark:border-slate-600 dark:!bg-slate-900;
+        }
       }
 
       .control-group,
@@ -334,8 +333,25 @@
         @apply flex flex-row flex-nowrap items-center gap-2 max-md:gap-1;
       }
 
+      .cbi-map-descr,
+      .cbi-section-descr {
+        @apply mb-6 text-sm leading-relaxed text-slate-600 max-md:mx-2 max-md:mb-3 max-md:text-sm dark:text-slate-400;
+      }
+
       .cbi-page-actions {
         @apply mt-6 flex flex-wrap items-center justify-end gap-3 border-t border-slate-200/50 pt-4 max-md:mx-2 max-md:mt-4 max-md:gap-2 max-md:pt-3 dark:border-slate-700/30;
+      }
+
+      .zone-forwards {
+        @apply flex items-start gap-3 leading-relaxed;
+
+        & > span {
+          @apply mt-1.5 text-slate-500 dark:text-slate-400;
+        }
+
+        .zone-dest {
+          @apply flex flex-col items-start gap-2;
+        }
       }
     }
 
@@ -602,14 +618,10 @@
     }
 
     .cbi-tooltip-container {
-      @apply relative cursor-help whitespace-nowrap;
+      @apply relative cursor-help whitespace-nowrap hover:z-120;
 
       & .cbi-tooltip {
         @apply invisible scale-95 transform opacity-0 transition-all duration-300 ease-out;
-
-        & strong {
-          @apply font-semibold;
-        }
       }
 
       &:hover .cbi-tooltip {
@@ -666,7 +678,7 @@
 
   @layer badge {
     .zonebadge {
-      @apply relative inline-flex items-center gap-1.5 overflow-hidden rounded-full border border-black/8 bg-white/98 p-1.5 text-sm font-medium text-slate-800 shadow-sm backdrop-blur-sm transition-all duration-200 hover:shadow-md max-md:gap-1 max-md:p-1 max-md:text-xs dark:border-white/12 dark:bg-slate-800/95 dark:text-slate-200 dark:shadow-black/25;
+      @apply inline-flex items-center gap-1.5 overflow-visible rounded-full border border-black/8 bg-white/98 p-1.5 text-sm font-medium text-slate-800 shadow-sm backdrop-blur-sm transition-all duration-200 hover:shadow-md max-md:gap-1 max-md:p-1 max-md:text-xs dark:border-white/12 dark:bg-slate-800/95 dark:text-slate-200 dark:shadow-black/25;
 
       .cbi-dropdown & {
         @apply rounded-2xl;
@@ -674,10 +686,6 @@
         &[style*="--zone-color-rgb:238, 238, 238"] {
           @apply dark:!bg-slate-700/60;
         }
-      }
-
-      & > strong {
-        @apply font-semibold text-slate-900 max-md:text-xs dark:text-white;
       }
 
       & > .ifacebadge {
@@ -693,22 +701,22 @@
       @apply inline-flex cursor-default items-center gap-2 rounded-2xl border border-slate-200/60 bg-white/95 px-3 py-2 text-sm font-normal text-slate-700 shadow-sm transition-all duration-200 hover:border-slate-300/70 hover:bg-white hover:shadow-md max-md:gap-1.5 max-md:px-2.5 max-md:py-1.5 max-md:text-xs dark:border-slate-600/40 dark:bg-slate-800/95 dark:text-slate-300 dark:shadow-black/10 dark:hover:border-slate-500/50 dark:hover:bg-slate-800 dark:hover:shadow-black/20;
 
       & > img {
-        @apply h-5 w-5 shrink-0 max-md:h-4 max-md:w-4;
+        @apply h-5 w-5 shrink-0 self-start max-md:h-4 max-md:w-4;
       }
 
       & > span {
-        @apply space-y-0.5 leading-relaxed max-md:space-y-0;
+        @apply flex flex-col gap-2;
 
         & > .nowrap {
-          @apply block text-sm leading-snug max-md:text-xs;
+          @apply text-sm max-md:text-xs;
 
           & strong {
-            @apply mr-1.5 font-medium text-slate-500 max-md:mr-1 dark:text-slate-400;
+            @apply mr-1.5 font-medium text-slate-800 max-md:mr-1 dark:text-slate-200;
           }
+        }
 
-          & + .nowrap {
-            @apply mt-0.5 max-md:mt-0;
-          }
+        & br {
+          @apply hidden;
         }
       }
 
@@ -734,12 +742,12 @@
         @apply border border-slate-200/40 bg-white/95 shadow-lg hover:border-slate-300/50 hover:shadow-xl max-md:border max-md:border-slate-200/20 max-md:bg-white/98 dark:border-slate-600/30 dark:bg-slate-800/95 dark:hover:border-slate-500/40 dark:hover:shadow-black/25 max-md:dark:border-slate-700/15 max-md:dark:bg-slate-800/98;
       }
 
-      & h3 {
-        @apply border-b border-slate-200/50 pb-4 text-slate-900 max-md:mx-0 max-md:border-slate-200/30 max-md:pb-2 dark:border-slate-600/40 dark:text-slate-100 max-md:dark:border-slate-700/20;
+      legend {
+        @apply text-lg font-semibold;
       }
 
-      & div[style*="background:#fff"] {
-        @apply dark:border-slate-600 dark:!bg-slate-900;
+      & h3 {
+        @apply border-b border-slate-200/50 pb-4 text-slate-900 max-md:mx-0 max-md:border-slate-200/30 max-md:pb-2 dark:border-slate-600/40 dark:text-slate-100 max-md:dark:border-slate-700/20;
       }
 
       & div[style*="display:grid"] {
@@ -764,7 +772,6 @@
 
       & .ifacebox-head {
         @apply w-full rounded-t-2xl border-b border-slate-200/50 bg-slate-50/80 px-4 py-2.5 text-center text-base font-semibold tracking-tight text-slate-900 transition-all duration-200 max-md:rounded-t-3xl max-md:border-slate-200/30 max-md:bg-slate-50/90 max-md:px-3 max-md:py-2.5 max-md:text-sm max-md:font-medium dark:border-slate-600/40 dark:bg-slate-700/60 dark:text-slate-100 max-md:dark:border-slate-700/25 max-md:dark:bg-slate-700/70;
-
         &.cbi-tooltip-container {
           @apply static bg-transparent;
           & .cbi-tooltip {
@@ -784,10 +791,6 @@
           @apply border-aurora-sky bg-aurora-sky dark:border-aurora-teal-600 dark:bg-aurora-teal-600 text-white;
         }
 
-        & strong {
-          @apply font-semibold tracking-wide;
-        }
-
         &[style*="background-color: rgb(238, 238, 238)"] {
           @apply dark:!bg-slate-700/60;
         }
@@ -797,7 +800,7 @@
         @apply flex w-full flex-col items-center justify-start rounded-b-2xl p-4 text-center leading-relaxed max-md:rounded-b-3xl max-md:p-3;
 
         & > span {
-          @apply mb-3 w-full space-y-1.5 text-base leading-relaxed text-slate-600 max-md:mb-2 max-md:space-y-1 max-md:text-sm max-md:leading-relaxed dark:text-slate-400;
+          @apply mb-3 w-full space-y-1.5 text-base leading-relaxed text-slate-600 max-md:mb-2 max-md:space-y-1 max-md:text-sm dark:text-slate-400;
 
           &:has(.cbi-tooltip) {
             @apply flex items-center justify-center gap-2;
@@ -810,7 +813,7 @@
             @apply block text-base leading-snug max-md:text-sm;
 
             & strong {
-              @apply mr-1.5 font-medium text-slate-500 max-md:mr-1 dark:text-slate-400;
+              @apply mr-1.5 font-medium text-slate-800 max-md:mr-1 dark:text-slate-200;
             }
           }
         }
@@ -922,7 +925,7 @@
   @layer table {
     .table,
     table {
-      @apply mb-3 w-full overflow-visible rounded-2xl shadow-sm max-md:mx-0 max-md:block max-md:w-full max-md:overflow-visible max-md:border-0 max-md:bg-white/98 max-md:shadow-none dark:shadow-black/50 max-md:dark:bg-slate-800/98;
+      @apply mb-3 w-full border-separate border-spacing-0 overflow-visible rounded-2xl border border-gray-100 shadow-sm max-md:mx-0 max-md:block max-md:w-full max-md:overflow-visible max-md:border-0 max-md:bg-white/98 max-md:shadow-none dark:border-gray-600/40 dark:shadow-black/50 max-md:dark:bg-slate-800/98;
       &[width="100%"] {
         @apply w-full;
       }
@@ -1145,10 +1148,6 @@
 
     [data-tab-active="true"] {
       @apply block h-auto overflow-visible;
-
-      & div[style*="background:#fff"] {
-        @apply dark:border-slate-600 dark:!bg-slate-900;
-      }
     }
   }
 
