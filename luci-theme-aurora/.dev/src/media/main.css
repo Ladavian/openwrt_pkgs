@@ -5,7 +5,7 @@
 
 @import "tailwindcss";
 
-@custom-variant dark (&:where([data-darkmode="true"], :root[data-darkmode="true"] &));
+@custom-variant dark (&:where([data-darkmode=true], [data-darkmode=true] *));
 
 @plugin "tailwind-scrollbar";
 
@@ -104,7 +104,7 @@
   }
 
   html {
-    @apply dark:from-aurora-night-slate dark:via-aurora-night-teal dark:to-aurora-night-emerald h-full bg-gradient-to-br from-slate-50 via-slate-100 to-slate-200 bg-fixed font-sans;
+    @apply md:dark:from-aurora-night-slate md:dark:via-aurora-night-teal md:dark:to-aurora-night-emerald max-md:dark:bg-aurora-night-teal h-full font-sans max-md:bg-slate-100 md:bg-gradient-to-br md:from-slate-50 md:via-slate-100 md:to-slate-200 md:bg-fixed;
 
     * {
       @apply scrollbar-thin scrollbar-track-transparent scrollbar-thumb-slate-300/60 hover:scrollbar-thumb-slate-400/80 dark:scrollbar-thumb-slate-600/60 dark:hover:scrollbar-thumb-slate-500/80 m-0 box-border p-0;
@@ -225,17 +225,17 @@
           }
 
           &[data-indicator="poll-status"] {
-            &[data-style="active"]::before {
-              @apply bg-[url('@assets/icons/refresh.svg')] dark:invert;
+            &[data-style="active"] {
+              @apply before:bg-[url('@assets/icons/refresh.svg')] dark:before:invert;
             }
 
-            &[data-style="inactive"]::before {
-              @apply bg-[url('@assets/icons/pause.svg')] dark:invert;
+            &[data-style="inactive"] {
+              @apply before:bg-[url('@assets/icons/pause.svg')] dark:before:invert;
             }
           }
 
-          &[data-indicator="uci-changes"]::before {
-            @apply bg-[url('@assets/icons/setting.svg')] dark:invert;
+          &[data-indicator="uci-changes"] {
+            @apply before:bg-[url('@assets/icons/setting.svg')] dark:before:invert;
           }
         }
       }
@@ -358,7 +358,7 @@
     }
 
     footer {
-      @apply mt-auto flex flex-wrap items-center justify-center gap-2 border-t border-slate-200 py-2 text-xs text-slate-500 dark:border-slate-700 dark:text-slate-400;
+      @apply mt-auto flex flex-wrap items-center justify-center gap-2 border-t border-slate-200/50 py-2 text-xs text-slate-500 dark:border-slate-700/30 dark:text-slate-400;
 
       & a {
         @apply text-aurora-sky hover:text-aurora-sky-600 dark:text-aurora-teal-400 dark:hover:text-aurora-teal-300 no-underline transition-all duration-150;
@@ -970,7 +970,8 @@
         }
 
         &.table-titles,
-        &.cbi-section-table-titles {
+        &.cbi-section-table-titles,
+        &.cbi-section-table-descr {
           @apply max-md:hidden;
         }
 
@@ -1014,7 +1015,7 @@
 
       & td,
       & .td {
-        @apply w-auto border-b border-gray-200 px-3 py-3 text-base break-words text-gray-700 max-md:flex-[1_1_50%] max-md:border-0 max-md:px-1 max-md:py-1 max-md:text-sm dark:border-gray-600/40 dark:text-gray-200;
+        @apply w-auto max-w-94 border-b border-gray-200 px-3 py-3 text-base break-words text-gray-700 max-md:max-w-full max-md:flex-[1_1_50%] max-md:border-0 max-md:px-1 max-md:py-1 max-md:text-sm dark:border-gray-600/40 dark:text-gray-200;
 
         &::before {
           @apply hidden content-[attr(data-title)] max-md:mb-1 max-md:block max-md:text-xs max-md:font-medium max-md:tracking-wider max-md:text-slate-500 max-md:uppercase max-md:dark:text-slate-400;
@@ -1040,15 +1041,22 @@
         }
 
         &.col-1 {
-          @apply w-28 max-w-32 whitespace-normal;
+          @apply max-w-32 whitespace-normal;
         }
 
         &.col-2 {
-          @apply w-36 max-w-40 whitespace-normal;
+          @apply max-w-40 whitespace-normal;
         }
 
         &.col-10 {
-          @apply w-auto whitespace-normal max-md:w-full max-md:flex-shrink-0;
+          @apply w-auto max-w-144 whitespace-normal max-md:w-full max-md:flex-shrink-0;
+        }
+      }
+    }
+    .cbi-section-table {
+      .cbi-section-table-titles {
+        .cbi-section-table-cell {
+          @apply !w-auto;
         }
       }
     }
