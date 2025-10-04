@@ -89,6 +89,7 @@ jobs:
           sync_repo luci-app-bandix-pkgs/bandix https://github.com/timsaya/openwrt-bandix.git "openwrt-bandix" "main"
           sync_repo luci-app-bandix-pkgs/luci-app-bandix https://github.com/timsaya/luci-app-bandix.git "luci-app-bandix" "main"
           sync_repo luci-theme-aurora https://github.com/eamonxg/luci-theme-aurora.git "" "master"
+          sync_repo OpenAppFilter https://github.com/destan19/OpenAppFilter.git "" "master"
 
 
 
