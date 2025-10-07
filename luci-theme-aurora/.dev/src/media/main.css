@@ -105,7 +105,7 @@
 
   html {
     @apply max-md:dark:bg-aurora-night-teal relative h-full font-sans max-md:bg-slate-100;
-    @apply md:before:pointer-events-none md:before:fixed md:before:inset-0 md:before:-z-10 md:before:content-[''];
+    @apply md:before:pointer-events-none md:before:fixed md:before:inset-0 md:before:-z-10;
     @apply md:before:bg-gradient-to-br md:before:from-slate-50 md:before:via-slate-100 md:before:to-slate-200;
     @apply md:dark:before:from-aurora-night-slate md:dark:before:via-aurora-night-teal md:dark:before:to-aurora-night-emerald;
 
@@ -297,7 +297,7 @@
       @apply mx-auto min-h-[calc(100vh-4rem)] w-11/12 max-w-6xl px-4 max-md:w-full max-md:px-3;
 
       #view {
-        @apply mx-0 mb-2 w-full p-0 shadow-none transition-all duration-300 empty:hidden md:mb-6 md:rounded-4xl md:border md:border-slate-400/20 md:bg-gradient-to-br md:from-white/95 md:via-white/90 md:to-white/85 md:p-6 md:shadow-xl md:hover:border-slate-400/30 md:hover:shadow-2xl md:hover:shadow-slate-400/30 md:dark:border-gray-600/30 md:dark:from-gray-900/95 md:dark:via-gray-800/90 md:dark:to-gray-900/85 md:dark:shadow-black/50 md:dark:hover:border-gray-500/40 md:dark:hover:shadow-black/60;
+        @apply mx-0 mb-2 w-full p-0 shadow-none transition-all duration-300 empty:hidden md:mb-6 md:rounded-4xl md:border md:border-slate-400/20 md:bg-white/90 md:p-6 md:shadow-xl md:hover:border-slate-400/30 md:hover:shadow-2xl md:hover:shadow-slate-400/30 md:dark:border-gray-600/30 md:dark:bg-gray-900/90 md:dark:shadow-black/50 md:dark:hover:border-gray-500/40 md:dark:hover:shadow-black/60;
 
         .cbi-title-section {
           @apply mb-6 leading-relaxed max-md:mx-2 max-md:mb-3;
@@ -773,7 +773,7 @@
     }
 
     .ifacebox {
-      @apply relative inline-flex min-w-40 flex-col items-stretch overflow-visible rounded-2xl border border-slate-200/40 bg-white/95 text-center text-base leading-5 shadow-md backdrop-blur-sm transition-all duration-200 hover:border-slate-300/50 hover:shadow-lg max-md:min-w-30 max-md:flex-1 max-md:rounded-3xl max-md:border-slate-200/30 max-md:bg-white/98 max-md:shadow-sm max-md:shadow-slate-200/30 max-md:backdrop-blur-xl dark:border-slate-600/30 dark:bg-slate-800/95 dark:shadow-black/20 dark:hover:border-slate-500/40 dark:hover:shadow-black/25 max-md:dark:border-slate-700/20 max-md:dark:bg-slate-800/98 max-md:dark:shadow-black/20;
+      @apply relative inline-flex min-w-40 flex-col items-stretch overflow-visible rounded-2xl border border-slate-200/40 bg-white/95 text-center text-base leading-5 shadow-md hover:border-slate-300/50 hover:shadow-lg max-md:min-w-30 max-md:flex-1 max-md:rounded-3xl max-md:border-slate-200/30 max-md:bg-white/98 max-md:shadow-sm max-md:shadow-slate-200/30 dark:border-slate-600/30 dark:bg-slate-800/95 dark:shadow-black/20 dark:hover:border-slate-500/40 dark:hover:shadow-black/25 max-md:dark:border-slate-700/20 max-md:dark:bg-slate-800/98 max-md:dark:shadow-black/20;
 
       td & {
         @apply max-md:flex-row;
@@ -803,10 +803,10 @@
       }
 
       & .ifacebox-body {
-        @apply flex w-full flex-col items-center justify-start gap-2 rounded-b-2xl p-4 text-center text-slate-500 max-md:rounded-b-3xl max-md:p-4 dark:text-slate-300;
+        @apply flex w-full flex-1 flex-col items-center justify-around gap-2 rounded-b-2xl p-4 text-center text-slate-500 max-md:rounded-b-3xl dark:text-slate-300;
 
         td & {
-          @apply max-md:flex-row max-md:rounded-r-3xl max-md:rounded-bl-none max-md:p-2;
+          @apply max-md:flex-row max-md:rounded-r-3xl max-md:rounded-bl-none max-md:py-2 max-md:pr-2 max-md:pl-4;
         }
 
         & > span {
@@ -822,7 +822,7 @@
           }
 
           & .nowrap {
-            @apply block max-md:text-sm;
+            @apply block;
           }
 
           & img {
@@ -844,7 +844,11 @@
           @apply static flex cursor-help items-center justify-center text-slate-800 dark:text-slate-200;
 
           & .cbi-tooltip {
-            @apply bottom-0 left-0;
+            @apply bottom-0 md:left-0;
+
+            & .nowrap {
+              @apply whitespace-nowrap;
+            }
           }
         }
 
